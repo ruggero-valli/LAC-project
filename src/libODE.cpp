@@ -1,4 +1,3 @@
-#include "libODE.h"
 #include<iostream>
 #include<math.h>
 #include<vector>
@@ -53,3 +52,5 @@ class Integrator{
         }
     }
 };
+
+int main(){}
