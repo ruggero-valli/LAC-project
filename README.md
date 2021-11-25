@@ -1,2 +1,1 @@
-# LAC-project
-Progetto per Laboratorio di Calcolo Avanzato
+# Progetto per Laboratorio di Calcolo Avanzato
