@@ -1,2 +1,2 @@
-testmain: testmain.cpp, libODE.cpp
-	cpp -o bin/testmain testmain.cpp libODE.cpp
+maintest: src/maintest.cpp src/libODE.cpp
+	cpp -o bin/maintest src/maintest.cpp src/libODE.cpp
