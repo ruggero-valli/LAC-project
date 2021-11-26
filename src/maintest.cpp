@@ -1,12 +1,12 @@
 #include <vector>
 #include <stdio.h>
 #include <cmath>
-#include "libODE.cpp"
+#include "libODE.h"
 
 using namespace std;
 
 
-inline vector <double> F (vector <double> y, double t ) {return y;} 
+vector <double> F (vector <double> y, double t ) {return y;} 
 
 
 
