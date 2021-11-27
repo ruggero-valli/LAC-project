@@ -1,23 +1,7 @@
-<<<<<<< HEAD
-#include<iostream>
-#include<math.h>
-#include<vector>
-
-typedef std::vector<double> (*fun) (std::vector<double>, double);
-
-class Solution{
-    public:
-    std::vector <double> U;
-    std::vector <double> t;
-    int nSteps;
-    int nEquations;
-
-    Solution(int nS, int nE);
-    double operator () (int i, int j);
-=======
 #ifndef LIBODE_H
 #define LIBODE_H
 #include "Eigen/Dense"
+#include <string>
 
 typedef Eigen::ArrayXd (*Grad) (Eigen::ArrayXd& y, double t );
 
@@ -42,20 +26,13 @@ class Solution{
 
     Solution(int nS, int nE);
     Solution(){}; // Default constructor. Seems like C++ needs it or it won't compile.
-    void set_IC(Eigen::ArrayXd& y0, double t0);
+    void setIC(Eigen::ArrayXd& y0, double t0);
+    void SaveToMFile(std::string FileName);
 
->>>>>>> 2183916babe635354e6779ecc7542fafdb12cae7
 };
 
 
 class Integrator{
-<<<<<<< HEAD
-    public:
-    Solution sol;
-    Integrator(fun f, std::vector<double>& y0, double t0, double tmax, int nSteps);
-};
-
-=======
     /*
     **************************************************************************
      * Implements the numerical integration of the Cauchy problem
@@ -73,4 +50,3 @@ class Integrator{
 };
 
 #endif
->>>>>>> 2183916babe635354e6779ecc7542fafdb12cae7
