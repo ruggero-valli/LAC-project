@@ -6,7 +6,7 @@
 using namespace std;
 using namespace Eigen;
 
-ArrayXd F (ArrayXd& y, double t) {return (-y);} 
+ArrayXd F (const ArrayXd& y, double t) {return (-y);} 
 
 int main(){
 
@@ -15,7 +15,7 @@ int main(){
     ArrayXd y0(1);
     y0 << 1;
 
-    Integrator I(F, y0, t0, tmax, nSteps);
+    Integrator I(F, y0, t0, tmax, nSteps, (string)"EE");
 
     string FileName;
     cin >> FileName;

@@ -48,11 +48,21 @@ void Solution::SaveToMFile(string FileName){
     myfile << "];" << '\n';
 }
 
-Integrator::Integrator(Grad f, ArrayXd& y0, double t0, double tmax, int nSteps){
+Integrator::Integrator(Grad f, ArrayXd& y0, double t0, double tmax, int nSteps, string method){
     /*
     ***************************************************************************
      * Constructor of the Integrator class. Performs the integration and
-     * saves the result into a Solution object
+     * saves the result into a Solution object.
+     * ************************************************************************
+     * Arguments:
+     * * f:         f(y,t) = y' is the gradient field of the solution
+     * * y0:        array of initial conditions
+     * * t0:        initial time
+     * * tmax:      final time
+     * * nSteps:    number of integration steps
+     * * method:    the integration algorithm. It can assume the values:
+     * * * "EE":        explicit Euler (https://en.wikipedia.org/wiki/Euler_method)
+     * * * "Heun":      Heun's method  (https://en.wikipedia.org/wiki/Heun%27s_method) 
     ***************************************************************************
     */
     // integration time interval
@@ -65,13 +75,43 @@ Integrator::Integrator(Grad f, ArrayXd& y0, double t0, double tmax, int nSteps){
     ArrayXd U = y0;
     double t = t0;
 
+    integrationStep integStep;
+    if (method == "EE"){
+        integStep = EE;
+    }
+    else if(method == "RK4"){
+        integStep = RK4;
+    }else{
+        cout << "Integration method not recognized. Quitting";
+        exit(1);
+    }
+
     // integration loop
     for(int i=1;i<nSteps; i++){
         t = t0 + i*dt;
         sol.t[i] = t;
-        U = U + dt*f(U, t);
+        integStep(f,U,t,dt);
         for(int j=0; j<nEquations; j++){
             sol.U(i,j) = U[j];
         }   
     }
 }
+
+void EE(Grad f, ArrayXd& U, double t, double dt){
+    U = U + dt*f(U, t);
+}
+
+void RK4(Grad f, ArrayXd& U, double t, double dt){
+    ArrayXd k1, k2, k3, k4;
+    k1.resizeLike(U);
+    k2.resizeLike(U);
+    k3.resizeLike(U);
+    k4.resizeLike(U);
+
+    k1 = f(U, t);
+    k2 = f(U+dt/2*k1, t+dt/2);
+    k3 = f(U+dt/2*k2, t+dt/2);
+    k4 = f(U+dt*k3, t+dt);
+    U += dt/6*(k1+2*k2 + 2*k3 +k4);
+}
+

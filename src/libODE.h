@@ -3,7 +3,8 @@
 #include "Eigen/Dense"
 #include <string>
 
-typedef Eigen::ArrayXd (*Grad) (Eigen::ArrayXd& y, double t );
+typedef Eigen::ArrayXd (*Grad) (const Eigen::ArrayXd& y, double t );
+typedef void (*integrationStep) (Grad f, Eigen::ArrayXd& U, double t, double dt);
 
 class Solution{
     /*
@@ -46,7 +47,10 @@ class Integrator{
 
     Solution sol;
 
-    Integrator(Grad f, Eigen::ArrayXd& y0, double t0, double tmax, int nSteps);
+    Integrator(Grad f, Eigen::ArrayXd& y0, double t0, double tmax, int nSteps, std::string method);
 };
+
+void EE(Grad f, Eigen::ArrayXd& U, double t, double dt);
+void RK4(Grad f, Eigen::ArrayXd& U, double t, double dt);
 
 #endif
