@@ -8,7 +8,7 @@ echo `pwd`
 
 c++ -I lib/eigen-3.4.0 src/maintest.cpp src/libODE.cpp -o bin/maintest
 echo "Compilato!"
-echo "$JOB_PATH/../output/prova.m" | bin/maintest
+bin/maintest -1 "$JOB_PATH/../output/prova.m"
 
 cd $JOB_PATH
 echo `pwd`

@@ -1,23 +1,40 @@
 #include <iostream>
 #include <string>
 #include "libODE.h"
-#include "Eigen/Dense"
 
 using namespace std;
-using namespace Eigen;
 
-ArrayXd F (const ArrayXd& y, double t) {return (-y);} 
+class testGradient : public Gradient{
+    private:
+    double lambda;
+    public:
+    testGradient(double lambda){
+        this->lambda = lambda;
+    }
+    Array1d operator()(Array1d y, double t){
+        return lambda*y;
+    }
+};
 
-int main(){
-
+int main(int argc, char *argv[]){
     double t0=0, tmax = 1;
     int nSteps = 10;
-    ArrayXd y0(1);
+    double lambda;
+    string fileName;
+
+    if (argc == 3){
+        lambda = atof(argv[1]);
+        fileName = argv[2];
+    } else {
+        cout << "Arguments required: double lambda, string fileName";
+        exit(1);
+    }
+
+    testGradient F(lambda);
+    Array1d y0(1);
     y0 << 1;
 
     Integrator I(F, y0, t0, tmax, nSteps, (string)"EE");
 
-    string FileName;
-    cin >> FileName;
-    I.sol.SaveToMFile(FileName);
+    I.sol.SaveToMFile(fileName);
     }
