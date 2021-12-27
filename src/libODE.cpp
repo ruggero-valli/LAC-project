@@ -1,30 +1,18 @@
 #include "libODE.h"
-#include "Eigen/Dense"
 #include <string>
 #include <fstream>
 #include <iostream>
 
-using namespace Eigen;
 using namespace std;
 
-Solution::Solution(int nS, int nE){
-    /*
-    ***************************************************************************
-     * Constructor of the Solution class
-    ***************************************************************************
-    */
-        nSteps=nS;
-        nEquations=nE;
-        U.resize(nSteps,nEquations);
-        t.resize(nSteps);
+Solution::Solution(int nSteps, int nEquations){
+        this->nSteps=nSteps;
+        this->nEquations=nEquations;
+        this->U.resize(nSteps,nEquations);
+        this->t.resize(nSteps);
 }
 
-void Solution::setIC(ArrayXd& y0, double t0){
-    /*
-    ***************************************************************************
-     * Fill the first positions of the arrays with the initial conditions
-    ***************************************************************************
-    */
+void Solution::setIC(Array1d& y0, double t0){
     for(int j=0; j<nEquations; j++){
         U(0, j) = y0[j];
     }
@@ -48,23 +36,7 @@ void Solution::SaveToMFile(string FileName){
     myfile << "];" << '\n';
 }
 
-Integrator::Integrator(Grad f, ArrayXd& y0, double t0, double tmax, int nSteps, string method){
-    /*
-    ***************************************************************************
-     * Constructor of the Integrator class. Performs the integration and
-     * saves the result into a Solution object.
-     * ************************************************************************
-     * Arguments:
-     * * f:         f(y,t) = y' is the gradient field of the solution
-     * * y0:        array of initial conditions
-     * * t0:        initial time
-     * * tmax:      final time
-     * * nSteps:    number of integration steps
-     * * method:    the integration algorithm. It can assume the values:
-     * * * "EE":        explicit Euler (https://en.wikipedia.org/wiki/Euler_method)
-     * * * "Heun":      Heun's method  (https://en.wikipedia.org/wiki/Heun%27s_method) 
-    ***************************************************************************
-    */
+Integrator::Integrator(Gradient& f, Array1d& y0, double t0, double tmax, int nSteps, string method){
     // integration time interval
     double dt = (tmax-t0)/nSteps; 
     int nEquations=y0.size();
@@ -72,7 +44,7 @@ Integrator::Integrator(Grad f, ArrayXd& y0, double t0, double tmax, int nSteps, 
 
     // set the initial conditions
     sol.setIC(y0, t0);
-    ArrayXd U = y0;
+    Array1d U = y0;
     double t = t0;
 
     integrationStep integStep;
@@ -97,12 +69,12 @@ Integrator::Integrator(Grad f, ArrayXd& y0, double t0, double tmax, int nSteps, 
     }
 }
 
-void EE(Grad f, ArrayXd& U, double t, double dt){
+void EE(Gradient& f, Array1d U, double t, double dt){
     U = U + dt*f(U, t);
 }
 
-void RK4(Grad f, ArrayXd& U, double t, double dt){
-    ArrayXd k1, k2, k3, k4;
+void RK4(Gradient& f, Array1d U, double t, double dt){
+    Array1d k1, k2, k3, k4;
     k1.resizeLike(U);
     k2.resizeLike(U);
     k3.resizeLike(U);
