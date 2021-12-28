@@ -6,35 +6,36 @@ using namespace std;
 
 class testGradient : public Gradient{
     private:
-    double lambda;
+    double omega;
     public:
-    testGradient(double lambda){
-        this->lambda = lambda;
+    testGradient(double omega){
+        this->omega = omega;
     }
     Array1d operator()(Array1d y, double t){
-        return lambda*y;
+        return -omega*omega*y;
     }
 };
 
 int main(int argc, char *argv[]){
     double t0=0, tmax = 1;
-    int nSteps = 10;
-    double lambda;
+    int nSteps = 100;
+    double omega;
     string fileName;
 
     if (argc == 3){
-        lambda = atof(argv[1]);
+        omega = atof(argv[1]);
         fileName = argv[2];
     } else {
         cout << "Arguments required: double omega, string fileName\n";
         exit(1);
     }
 
-    testGradient F(lambda);
-    Array1d y0(1);
-    y0 << 1;
+    testGradient F(omega);
+    Array1d y0(2);
+    y0[0] = 1;
+    y0[1] = 0;
 
-    Integrator I(F, y0, t0, tmax, nSteps, (string)"EE");
+    Integrator I(F, y0, t0, tmax, nSteps, (string)"SE");
 
     I.sol.SaveToMFile(fileName);
     }

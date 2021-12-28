@@ -17,6 +17,13 @@
 typedef Eigen::ArrayXd Array1d;
 typedef Eigen::ArrayXXd Array2d;
 
+// class Array1d : public Eigen::ArrayXd{
+//     public:
+//     Array1d(){}
+//     Array1d(int i) : Eigen::ArrayXd(i){}
+//     void to_rv (Array1d r, Array1d v);
+// };
+
 /**
  * @brief the gradient of a system of ordinary differential equation.
  * 
@@ -156,9 +163,13 @@ class Integrator{
     // Solution& getSolution();
 };
 
+void split(Array1d& U, Array1d& r, Array1d& v);
+void join(Array1d& U, Array1d& r, Array1d& v);
+
 typedef void (*integrationStep) (Gradient& f, Array1d U, double t, double dt);
 void EE(Gradient& f, Array1d U, double t, double dt);
-void EEs(Gradient& f, Array1d U, double t, double dt);
+void SE(Gradient& f, Array1d U, double t, double dt);
 void RK4(Gradient& f, Array1d U, double t, double dt);
-void RK4s(Gradient& f, Array1d U, double t, double dt);
+void RK5(Gradient& f, Array1d U, double t, double dt);
+void Verlet(Gradient& f, Array1d U, double t, double dt);
 #endif

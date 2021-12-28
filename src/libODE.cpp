@@ -1,9 +1,17 @@
 #include "libODE.h"
+//#include "Eigen/Core"
 #include <string>
 #include <fstream>
 #include <iostream>
 
 using namespace std;
+using namespace Eigen;
+
+// void Array1d::to_rv (Array1d r, Array1d v){
+//         Eigen::ArrayXd x = r(seq(0,1));
+//         r = (*this)(seq(0,last/2));
+//         v = (*this)(seq(last/2 + 1, last));
+// }
 
 Solution::Solution(int nSteps, int nEquations){
         this->nSteps=nSteps;
@@ -53,7 +61,9 @@ Integrator::Integrator(Gradient& f, Array1d& y0, double t0, double tmax, int nSt
     }
     else if(method == "RK4"){
         integStep = RK4;
-    }else{
+    }else if(method == "SE"){
+        integStep = SE;
+    }else{    
         cout << "Integration method not recognized. Quitting";
         exit(1);
     }
@@ -69,8 +79,27 @@ Integrator::Integrator(Gradient& f, Array1d& y0, double t0, double tmax, int nSt
     }
 }
 
+void split(Array1d& U, Array1d* r, Array1d* v){
+    *r = U(seq(0,last/2));
+    *v = U(seq(last/2 + 1, last));
+}
+
+void join(Array1d* U, Array1d& r, Array1d& v){
+    U->resize(r.size()+v.size());
+    (*U)(seq(0,last/2)) = r;
+    (*U)(seq(last/2 + 1, last)) = v;
+}
+
 void EE(Gradient& f, Array1d U, double t, double dt){
     U = U + dt*f(U, t);
+}
+
+void SE(Gradient& f, Array1d U, double t, double dt){
+    Array1d r, v;
+    split(U, &r, &v);
+    v = v + f(r,t) * dt;
+    r = r + v * dt;
+    join(&U, r, v);
 }
 
 void RK4(Gradient& f, Array1d U, double t, double dt){
@@ -87,3 +116,5 @@ void RK4(Gradient& f, Array1d U, double t, double dt){
     U += dt/6*(k1+2*k2 + 2*k3 +k4);
 }
 
+void RK5(Gradient& f, Array1d U, double t, double dt){}
+void Verlet(Gradient& f, Array1d U, double t, double dt){}
