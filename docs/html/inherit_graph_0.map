@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="9,5,84,32"/>
-<area shape="rect" id="node2" href="$class_eigen.html" title=" " alt="" coords="136,31,195,57"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,56,88,83"/>
+<area shape="rect" id="node1" href="$class_gradient.html" title="the gradient of a system of ordinary differential equation." alt="" coords="5,31,84,57"/>
+<area shape="rect" id="node2" href="$classlorenz_gradient.html" title=" " alt="" coords="132,5,251,32"/>
+<area shape="rect" id="node3" href="$classtest_gradient.html" title=" " alt="" coords="140,56,243,83"/>
 </map>

@@ -12,22 +12,30 @@ the numerical solution of a Cauchy problem.
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\Hypertarget{class_solution_ab55bd4b023d596ce11aaf737b9a6123b}\label{class_solution_ab55bd4b023d596ce11aaf737b9a6123b}} 
+\mbox{\hyperlink{class_solution_ab55bd4b023d596ce11aaf737b9a6123b}{Solution}} ()
+\begin{DoxyCompactList}\small\item\em Constructor of an empty \mbox{\hyperlink{class_solution}{Solution}} object. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{class_solution_a9a454cd129deab519e7b12762b3c0ef6}{Solution}} (int n\+Steps, int n\+Equations)
 \begin{DoxyCompactList}\small\item\em constructor of the \mbox{\hyperlink{class_solution}{Solution}} class. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_solution_a3950d6634351f8be27c98dd8e40da2d5}{set\+IC}} (double t0, Array1d u0)
+void \mbox{\hyperlink{class_solution_a7e31003ea6da6b5fc75a1fd500192c1f}{set\+IC}} (Array1D \&U0, double t0)
 \begin{DoxyCompactList}\small\item\em set the initial conditions as the first value of the solution. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_solution_ab63e199326c1e00fb5e7ac775fa16865}{addstep}} (double t, Array1d u)
-\begin{DoxyCompactList}\small\item\em append the value of the current step to the solution \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{class_solution_a8670d5a46b8cccab3d09886538833442}{get\+NSteps}} ()
-\begin{DoxyCompactList}\small\item\em get the number of integration steps \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{class_solution_a0630a5769a3471b2161e97bc43f87052}{get\+NEquations}} ()
-\begin{DoxyCompactList}\small\item\em get the number of equations in the system \end{DoxyCompactList}\item 
-Array1d \& \mbox{\hyperlink{class_solution_a2793a1f8100bbad071e0617dc7844297}{getT}} ()
-\begin{DoxyCompactList}\small\item\em get the array of times at which the solution is evaluated \end{DoxyCompactList}\item 
-Array2d \& \mbox{\hyperlink{class_solution_a65e386660d5a93922096584a20c8c978}{getU}} ()
-\begin{DoxyCompactList}\small\item\em the values of the solution at the discrete timesteps \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{class_solution_af1fc76723c60e605aa07ebe86cc03b0c}{Save\+To\+MFile}} (std\+::string \&File\+Name)
+void \mbox{\hyperlink{class_solution_a79f19cdac2c05b5eb46c6431e97c1811}{Save\+To\+MFile}} (std\+::string File\+Name)
 \begin{DoxyCompactList}\small\item\em write the solution to a MATLAB file \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_solution_acb2f883af1f45932886398d88b2acb03}\label{class_solution_acb2f883af1f45932886398d88b2acb03}} 
+int {\bfseries n\+Steps}
+\item 
+\mbox{\Hypertarget{class_solution_afcf69754d610443f4b3a89a82a1704c4}\label{class_solution_afcf69754d610443f4b3a89a82a1704c4}} 
+int {\bfseries n\+Equations}
+\item 
+\mbox{\Hypertarget{class_solution_ae16353344d9ac65ad921fd710529684c}\label{class_solution_ae16353344d9ac65ad921fd710529684c}} 
+Array1D {\bfseries t}
+\item 
+\mbox{\Hypertarget{class_solution_aac5157529e329c90ed012fd79c6dd18b}\label{class_solution_aac5157529e329c90ed012fd79c6dd18b}} 
+Array2D {\bfseries U}
+\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -59,84 +67,11 @@ $\ast$ Constructor
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{class_solution_ab63e199326c1e00fb5e7ac775fa16865}\label{class_solution_ab63e199326c1e00fb5e7ac775fa16865}} 
-\index{Solution@{Solution}!addstep@{addstep}}
-\index{addstep@{addstep}!Solution@{Solution}}
-\doxysubsubsection{\texorpdfstring{addstep()}{addstep()}}
-{\footnotesize\ttfamily void Solution\+::addstep (\begin{DoxyParamCaption}\item[{double}]{t,  }\item[{Array1d}]{u }\end{DoxyParamCaption})}
-
-
-
-append the value of the current step to the solution 
-
-after calling this method, the solution contains a new point\+: the value {\ttfamily u} at time {\ttfamily t}. The method raises an error if {\ttfamily t} is less or equal to the latest time provided or if the solution already has {\ttfamily n\+Step} points.
-
-
-\begin{DoxyParams}{Parameters}
-{\em t} & the new time \\
-\hline
-{\em u} & the value of the function at time {\ttfamily t} \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{class_solution_a0630a5769a3471b2161e97bc43f87052}\label{class_solution_a0630a5769a3471b2161e97bc43f87052}} 
-\index{Solution@{Solution}!getNEquations@{getNEquations}}
-\index{getNEquations@{getNEquations}!Solution@{Solution}}
-\doxysubsubsection{\texorpdfstring{getNEquations()}{getNEquations()}}
-{\footnotesize\ttfamily int Solution\+::get\+NEquations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-get the number of equations in the system 
-
-\begin{DoxyReturn}{Returns}
-the number of equations 
-\end{DoxyReturn}
-\mbox{\Hypertarget{class_solution_a8670d5a46b8cccab3d09886538833442}\label{class_solution_a8670d5a46b8cccab3d09886538833442}} 
-\index{Solution@{Solution}!getNSteps@{getNSteps}}
-\index{getNSteps@{getNSteps}!Solution@{Solution}}
-\doxysubsubsection{\texorpdfstring{getNSteps()}{getNSteps()}}
-{\footnotesize\ttfamily int Solution\+::get\+NSteps (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-get the number of integration steps 
-
-\begin{DoxyReturn}{Returns}
-the number of integration steps 
-\end{DoxyReturn}
-\mbox{\Hypertarget{class_solution_a2793a1f8100bbad071e0617dc7844297}\label{class_solution_a2793a1f8100bbad071e0617dc7844297}} 
-\index{Solution@{Solution}!getT@{getT}}
-\index{getT@{getT}!Solution@{Solution}}
-\doxysubsubsection{\texorpdfstring{getT()}{getT()}}
-{\footnotesize\ttfamily Array1d\& Solution\+::getT (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-get the array of times at which the solution is evaluated 
-
-\begin{DoxyReturn}{Returns}
-the array of times 
-\end{DoxyReturn}
-\mbox{\Hypertarget{class_solution_a65e386660d5a93922096584a20c8c978}\label{class_solution_a65e386660d5a93922096584a20c8c978}} 
-\index{Solution@{Solution}!getU@{getU}}
-\index{getU@{getU}!Solution@{Solution}}
-\doxysubsubsection{\texorpdfstring{getU()}{getU()}}
-{\footnotesize\ttfamily Array2d\& Solution\+::getU (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-the values of the solution at the discrete timesteps 
-
-the returned object is a 2d array. The first index refers to the timestep the second index is the equation number
-
-\begin{DoxyReturn}{Returns}
-the array containing the values of the solution 
-\end{DoxyReturn}
-\mbox{\Hypertarget{class_solution_af1fc76723c60e605aa07ebe86cc03b0c}\label{class_solution_af1fc76723c60e605aa07ebe86cc03b0c}} 
+\mbox{\Hypertarget{class_solution_a79f19cdac2c05b5eb46c6431e97c1811}\label{class_solution_a79f19cdac2c05b5eb46c6431e97c1811}} 
 \index{Solution@{Solution}!SaveToMFile@{SaveToMFile}}
 \index{SaveToMFile@{SaveToMFile}!Solution@{Solution}}
 \doxysubsubsection{\texorpdfstring{SaveToMFile()}{SaveToMFile()}}
-{\footnotesize\ttfamily void Solution\+::\+Save\+To\+MFile (\begin{DoxyParamCaption}\item[{std\+::string \&}]{File\+Name }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Solution\+::\+Save\+To\+MFile (\begin{DoxyParamCaption}\item[{std\+::string}]{File\+Name }\end{DoxyParamCaption})}
 
 
 
@@ -147,11 +82,11 @@ write the solution to a MATLAB file
 {\em File\+Name} & the name of the file where the solution is to be saved \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{class_solution_a3950d6634351f8be27c98dd8e40da2d5}\label{class_solution_a3950d6634351f8be27c98dd8e40da2d5}} 
+\mbox{\Hypertarget{class_solution_a7e31003ea6da6b5fc75a1fd500192c1f}\label{class_solution_a7e31003ea6da6b5fc75a1fd500192c1f}} 
 \index{Solution@{Solution}!setIC@{setIC}}
 \index{setIC@{setIC}!Solution@{Solution}}
 \doxysubsubsection{\texorpdfstring{setIC()}{setIC()}}
-{\footnotesize\ttfamily void Solution\+::set\+IC (\begin{DoxyParamCaption}\item[{double}]{t0,  }\item[{Array1d}]{u0 }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Solution\+::set\+IC (\begin{DoxyParamCaption}\item[{Array1D \&}]{U0,  }\item[{double}]{t0 }\end{DoxyParamCaption})}
 
 
 
@@ -159,14 +94,14 @@ set the initial conditions as the first value of the solution.
 
 
 \begin{DoxyParams}{Parameters}
-{\em t0} & the initial time \\
+{\em U0} & the initial value of the solution \\
 \hline
-{\em u0} & the initial value of the solution \\
+{\em t0} & the initial time \\
 \hline
 \end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-lib\+ODE.\+h\item 
-lib\+ODE.\+cpp\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{lib_o_d_e_8h}{lib\+ODE.\+h}}\item 
+src/lib\+ODE.\+cpp\end{DoxyCompactItemize}

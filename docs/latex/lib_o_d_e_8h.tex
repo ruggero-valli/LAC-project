@@ -1,0 +1,155 @@
+\hypertarget{lib_o_d_e_8h}{}\doxysection{src/lib\+ODE.h File Reference}
+\label{lib_o_d_e_8h}\index{src/libODE.h@{src/libODE.h}}
+{\ttfamily \#include \char`\"{}Eigen/\+Dense\char`\"{}}\newline
+{\ttfamily \#include $<$string$>$}\newline
+Include dependency graph for lib\+ODE.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{lib_o_d_e_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_gradient}{Gradient}}
+\begin{DoxyCompactList}\small\item\em the gradient of a system of ordinary differential equation. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_solution}{Solution}}
+\begin{DoxyCompactList}\small\item\em the numerical solution of a Cauchy problem. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{class_integrator}{Integrator}}
+\begin{DoxyCompactList}\small\item\em integrate a system of ordinary differential equations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{lib_o_d_e_8h_a662df5c561aad6f9ac8e8f59425e8810}\label{lib_o_d_e_8h_a662df5c561aad6f9ac8e8f59425e8810}} 
+typedef Eigen\+::\+Array\+Xd {\bfseries Array1D}
+\item 
+\mbox{\Hypertarget{lib_o_d_e_8h_ae0de9002b07d0c862ef045a8b89a6212}\label{lib_o_d_e_8h_ae0de9002b07d0c862ef045a8b89a6212}} 
+typedef Eigen\+::\+Array\+XXd {\bfseries Array2D}
+\item 
+\mbox{\Hypertarget{lib_o_d_e_8h_add5c20d94666cadf908a87901406e098}\label{lib_o_d_e_8h_add5c20d94666cadf908a87901406e098}} 
+typedef void($\ast$ \mbox{\hyperlink{lib_o_d_e_8h_add5c20d94666cadf908a87901406e098}{integration\+Step}}) (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&U, double t, double dt)
+\begin{DoxyCompactList}\small\item\em a template for the integration step functions \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{lib_o_d_e_8h_a220c4b936b0f121889159f0c81018405}{split}} (Array1D \&U, Array1D \&r, Array1D \&v)
+\begin{DoxyCompactList}\small\item\em splits the array in half. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib_o_d_e_8h_ac9d2e49d95ff69304f46df9caf7ff951}{join}} (Array1D \&U, Array1D \&r, Array1D \&v)
+\begin{DoxyCompactList}\small\item\em concatenates two arrays into one. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib_o_d_e_8h_a6b20f0ef92f6092dbe4dcc2bbb886dbf}{EE}} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&U, double t, double dt)
+\begin{DoxyCompactList}\small\item\em Performs one integration step using the Explicit Euler method. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lib_o_d_e_8h_ae635ab216a1f2cfb83dfafea6c334515}{SE}} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&U, double t, double dt)
+\begin{DoxyCompactList}\small\item\em Performs one integration step using the Symplectic Euler method. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{lib_o_d_e_8h_af413bf530d376ad0640d6475fc532c30}\label{lib_o_d_e_8h_af413bf530d376ad0640d6475fc532c30}} 
+void {\bfseries RK4} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&U, double t, double dt)
+\item 
+\mbox{\Hypertarget{lib_o_d_e_8h_a80cd9a177b894dcf40b21f042a5dc9db}\label{lib_o_d_e_8h_a80cd9a177b894dcf40b21f042a5dc9db}} 
+void {\bfseries RK5} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&U, double t, double dt)
+\item 
+\mbox{\Hypertarget{lib_o_d_e_8h_a2af7573bf9e5c2a00dbbab47e3407db2}\label{lib_o_d_e_8h_a2af7573bf9e5c2a00dbbab47e3407db2}} 
+void {\bfseries Verlet} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&U, double t, double dt)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyAuthor}{Authors}
+Ruggero Valli, Francesca Vitali 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+2 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2021-\/12-\/26 
+\end{DoxyDate}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{lib_o_d_e_8h_a6b20f0ef92f6092dbe4dcc2bbb886dbf}\label{lib_o_d_e_8h_a6b20f0ef92f6092dbe4dcc2bbb886dbf}} 
+\index{libODE.h@{libODE.h}!EE@{EE}}
+\index{EE@{EE}!libODE.h@{libODE.h}}
+\doxysubsubsection{\texorpdfstring{EE()}{EE()}}
+{\footnotesize\ttfamily void EE (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_gradient}{Gradient}} \&}]{f,  }\item[{Array1D \&}]{U,  }\item[{double}]{t,  }\item[{double}]{dt }\end{DoxyParamCaption})}
+
+
+
+Performs one integration step using the Explicit Euler method. 
+
+The Explicit Euler method is the simplest integration method. First order accuracy. The integration step is\+: \[ U_{i+1} = U_i + f(U_i, t) dt \] Wikipedia\+: \href{https://en.wikipedia.org/wiki/Euler_method}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Euler\+\_\+method}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & is the gradient of the cauchy problem $y\textnormal{\textquotesingle}=f(y,t)$ \\
+\hline
+{\em U} & is an array that contains the solution vector at time {\ttfamily t} \\
+\hline
+{\em t} & is the time \\
+\hline
+{\em dt} & is the integration timestep \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib_o_d_e_8h_ac9d2e49d95ff69304f46df9caf7ff951}\label{lib_o_d_e_8h_ac9d2e49d95ff69304f46df9caf7ff951}} 
+\index{libODE.h@{libODE.h}!join@{join}}
+\index{join@{join}!libODE.h@{libODE.h}}
+\doxysubsubsection{\texorpdfstring{join()}{join()}}
+{\footnotesize\ttfamily void join (\begin{DoxyParamCaption}\item[{Array1D \&}]{U,  }\item[{Array1D \&}]{r,  }\item[{Array1D \&}]{v }\end{DoxyParamCaption})}
+
+
+
+concatenates two arrays into one. 
+
+The array {\ttfamily r} and the array {\ttfamily v} are concatenated into the array {\ttfamily U}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em U} & the resulting array \\
+\hline
+\mbox{\texttt{ in}}  & {\em r} & the first half of the array \\
+\hline
+\mbox{\texttt{ in}}  & {\em v} & the second half of the array \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{lib_o_d_e_8h_ae635ab216a1f2cfb83dfafea6c334515}\label{lib_o_d_e_8h_ae635ab216a1f2cfb83dfafea6c334515}} 
+\index{libODE.h@{libODE.h}!SE@{SE}}
+\index{SE@{SE}!libODE.h@{libODE.h}}
+\doxysubsubsection{\texorpdfstring{SE()}{SE()}}
+{\footnotesize\ttfamily void SE (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_gradient}{Gradient}} \&}]{f,  }\item[{Array1D \&}]{U,  }\item[{double}]{t,  }\item[{double}]{dt }\end{DoxyParamCaption})}
+
+
+
+Performs one integration step using the Symplectic Euler method. 
+
+The Symplectic Euler method is a symplectic first order method. It is meant to solve the symplectic cauchy problem \[ \dot{r} = v \dot{v} = f(r,t) \] The integration step of the method is\+: \[ v_{i+1} = v_i + f(r_i, t) dt r_{i+1} = r_i + v_{i+1} dt \] Wikipedia\+: \href{https://en.wikipedia.org/wiki/Semi-implicit_Euler_method}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Semi-\/implicit\+\_\+\+Euler\+\_\+method}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em f} & is the acceleration \\
+\hline
+{\em U} & is an array that contains the solution vector at time {\ttfamily t} \\
+\hline
+{\em t} & is the time \\
+\hline
+{\em dt} & is the integration timestep\\
+\hline
+\end{DoxyParams}
+If 2N is the number of first order equations in the problem, {\ttfamily U} is an array of length 2N. The first N elements correspond to the position variables. The elements from {\ttfamily N+1} to {\ttfamily 2N-\/1} correspond to the velocity variables, such that for each i, U\mbox{[}N+i\mbox{]} is the velocity associated with the position stored at U\mbox{[}i\mbox{]}. \mbox{\Hypertarget{lib_o_d_e_8h_a220c4b936b0f121889159f0c81018405}\label{lib_o_d_e_8h_a220c4b936b0f121889159f0c81018405}} 
+\index{libODE.h@{libODE.h}!split@{split}}
+\index{split@{split}!libODE.h@{libODE.h}}
+\doxysubsubsection{\texorpdfstring{split()}{split()}}
+{\footnotesize\ttfamily void split (\begin{DoxyParamCaption}\item[{Array1D \&}]{U,  }\item[{Array1D \&}]{r,  }\item[{Array1D \&}]{v }\end{DoxyParamCaption})}
+
+
+
+splits the array in half. 
+
+The array {\ttfamily U} is split in two equal-\/length parts. The first half is copied into the array {\ttfamily r}, the second one into the array {\ttfamily v}.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em U} & the array to be split \\
+\hline
+\mbox{\texttt{ out}}  & {\em r} & the first half of the array \\
+\hline
+\mbox{\texttt{ out}}  & {\em v} & the second half of the array \\
+\hline
+\end{DoxyParams}

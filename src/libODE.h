@@ -1,8 +1,8 @@
 /**
- * @file libODE2.h
+ * @file libODE.h
  * @authors Ruggero Valli, Francesca Vitali
  * @brief 
- * @version 0.1
+ * @version 0.2
  * @date 2021-12-26
  * 
  * 
@@ -14,15 +14,8 @@
 #include "Eigen/Dense"
 #include <string>
 
-typedef Eigen::ArrayXd Array1d;
-typedef Eigen::ArrayXXd Array2d;
-
-// class Array1d : public Eigen::ArrayXd{
-//     public:
-//     Array1d(){}
-//     Array1d(int i) : Eigen::ArrayXd(i){}
-//     void to_rv (Array1d r, Array1d v);
-// };
+typedef Eigen::ArrayXd Array1D;
+typedef Eigen::ArrayXXd Array2D;
 
 /**
  * @brief the gradient of a system of ordinary differential equation.
@@ -33,7 +26,7 @@ typedef Eigen::ArrayXXd Array2d;
  */
 class Gradient{
     public:
-    virtual Array1d operator()(Array1d y, double t)=0;
+    virtual Array1D operator()(Array1D y, double t)=0;
 };
 
 /**
@@ -46,8 +39,8 @@ class Solution{
     public:
     int nSteps;
     int nEquations;
-    Array1d t;
-    Array2d U;
+    Array1D t;
+    Array2D U;
 
     /**
      * @brief Constructor of an empty Solution object
@@ -70,51 +63,7 @@ class Solution{
      * @param U0 the initial value of the solution
      * @param t0 the initial time
      */
-    void setIC(Array1d& U0, double t0);
-
-    // /**
-    //  * @brief append the value of the current step to the solution
-    //  * 
-    //  * after calling this method, the solution contains a new point: the value
-    //  * `u` at time `t`. The method raises an error if `t` is less or equal to
-    //  * the latest time provided or if the solution already has `nStep` points.
-    //  * 
-    //  * @param U the value of the function at time `t`
-    //  * @param t the new time
-    //  */
-    // void addStep(Array1d& U, double t);
-    //
-    // /**
-    //  * @brief get the number of integration steps
-    //  * 
-    //  * @return the number of integration steps 
-    //  */
-    // int getNSteps();
-    //
-    //  /**
-    //  * @brief get the number of equations in the system
-    //  * 
-    //  * @return the number of equations
-    //  */
-    // int getNEquations();
-    //
-    // /**
-    //  * @brief get the array of times at which the solution is evaluated
-    //  * 
-    //  * @return the array of times
-    //  */
-    // Array1d& getT();
-    //
-    // /**
-    //  * @brief the values of the solution at the discrete timesteps
-    //  * 
-    //  * the returned object is a 2d array.
-    //  * The first index refers to the timestep
-    //  * the second index is the equation number
-    //  * 
-    //  * @return the array containing the values of the solution
-    //  */
-    // Array2d& getU();
+    void setIC(Array1D& U0, double t0);
     
     /**
      * @brief write the solution to a MATLAB file
@@ -148,28 +97,92 @@ class Integrator{
      * @param method the integration algorithm.
      * 
      * The available integration methods are:
-     * - "EE":    explicit Euler (https://en.wikipedia.org/wiki/Euler_method)
-     * - "RK4":   explicit Runge-Kutta of VI order (https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Examples) 
+     * - "EE":     explicit Euler
+     * - "SE":     symplectic Euler
+     * - "RK4":    explicit Runge-Kutta of IV order (https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods#Examples)
+     * - "RK5":    explicit Runge-Kutta of V order
+     * - "Verlet": velocity Verlet's method (https://en.wikipedia.org/wiki/Verlet_integration#Velocity_Verlet)
      * 
      */
-    Integrator(Gradient& f, Array1d& y0, double t0, double tmax, 
+    Integrator(Gradient& f, Array1D& y0, double t0, double tmax, 
                 int nSteps, std::string method);
-
-    // /**
-    //  * @brief Get the numerical solution of the performed integration
-    //  * 
-    //  * @return the solution object
-    //  */
-    // Solution& getSolution();
 };
 
-void split(Array1d& U, Array1d& r, Array1d& v);
-void join(Array1d& U, Array1d& r, Array1d& v);
+/**
+ * @brief splits the array in half.
+ * 
+ * The array `U` is split in two equal-length parts. The first half is copied
+ * into the array `r`, the second one into the array `v`.
+ * 
+ * @param[in] U the array to be split
+ * @param[out] r the first half of the array
+ * @param[out] v the second half of the array
+ */
+void split(Array1D& U, Array1D& r, Array1D& v);
 
-typedef void (*integrationStep) (Gradient& f, Array1d U, double t, double dt);
-void EE(Gradient& f, Array1d U, double t, double dt);
-void SE(Gradient& f, Array1d U, double t, double dt);
-void RK4(Gradient& f, Array1d U, double t, double dt);
-void RK5(Gradient& f, Array1d U, double t, double dt);
-void Verlet(Gradient& f, Array1d U, double t, double dt);
+/**
+ * @brief concatenates two arrays into one.
+ * 
+ * The array `r` and the array `v` are concatenated into the array `U`.
+ * 
+ * @param[out] U the resulting array
+ * @param[in] r the first half of the array
+ * @param[in] v the second half of the array
+ */
+void join(Array1D& U, Array1D& r, Array1D& v);
+
+/**
+ * @brief a template for the integration step functions
+ * 
+ */
+typedef void (*integrationStep) (Gradient& f, Array1D& U, double t, double dt);
+
+/**
+ * @brief Performs one integration step using the Explicit Euler method.
+ * 
+ * The Explicit Euler method is the simplest integration method. First order
+ * accuracy. The integration step is:
+ * \f[
+ * U_{i+1} = U_i + f(U_i, t) dt
+ * \f]
+ * Wikipedia: https://en.wikipedia.org/wiki/Euler_method
+ * 
+ * @param f is the gradient of the cauchy problem \f$y'=f(y,t)\f$
+ * @param U is an array that contains the solution vector at time `t`
+ * @param t is the time
+ * @param dt is the integration timestep
+ */
+void EE(Gradient& f, Array1D& U, double t, double dt);
+
+/**
+ * @brief Performs one integration step using the Symplectic Euler method.
+ * 
+ * The Symplectic Euler method is a symplectic first order method.
+ * It is meant to solve the symplectic cauchy problem
+ * \f[
+ * \dot{r} = v
+ * \dot{v} = f(r,t)
+ * \f]
+ * The integration step of the method is:
+ * \f[
+ * v_{i+1} = v_i + f(r_i, t) dt
+ * r_{i+1} = r_i + v_{i+1} dt
+ * \f]
+ * Wikipedia: https://en.wikipedia.org/wiki/Semi-implicit_Euler_method
+ * 
+ * @param f is the acceleration
+ * @param U is an array that contains the solution vector at time `t`
+ * @param t is the time
+ * @param dt is the integration timestep
+ * 
+ * If 2N is the number of first order equations in the problem, `U` is an array
+ * of length 2N. The first N elements correspond to the position variables.
+ * The elements from `N+1` to `2N-1` correspond to the velocity variables, such
+ * that for each i, U[N+i] is the velocity associated with the position stored
+ * at U[i].
+ */
+void SE(Gradient& f, Array1D& U, double t, double dt);
+void RK4(Gradient& f, Array1D& U, double t, double dt);
+void RK5(Gradient& f, Array1D& U, double t, double dt);
+void Verlet(Gradient& f, Array1D& U, double t, double dt);
 #endif

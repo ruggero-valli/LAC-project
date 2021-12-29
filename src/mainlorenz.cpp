@@ -6,8 +6,8 @@ using namespace std;
 
 class lorenzGradient : public Gradient{
     public:
-    Array1d operator()(Array1d y, double t){
-    Array1d f;
+    Array1D operator()(Array1D y, double t){
+    Array1D f;
     f.resizeLike(y);
     double sigma=10;
     double ro=28;
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]){
     double t0=0, tmax = 1000;
     int nSteps = 1000000;
     lorenzGradient F;
-    Array1d y0(3);
+    Array1D y0(3);
     y0[0] = 1; y0[1] = 1; y0[2] = 1;
 
     Integrator I(F, y0, t0, tmax, nSteps, (string)"RK4");

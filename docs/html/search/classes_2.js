@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['integrator_13',['Integrator',['../class_integrator.html',1,'']]]
+  ['lorenzgradient_15',['lorenzGradient',['../classlorenz_gradient.html',1,'']]]
 ];

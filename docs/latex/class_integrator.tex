@@ -9,13 +9,25 @@ integrate a system of ordinary differential equations.
 
 {\ttfamily \#include $<$lib\+ODE.\+h$>$}
 
+
+
+Collaboration diagram for Integrator\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=145pt]{class_integrator__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{class_integrator_a610aace08fac490341fa7fc09acdf941}{Integrator}} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1d \&y0, double t0, double tmax, int n\+Steps, std\+::string \&method)
-\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{class_integrator}{Integrator}} object. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{class_integrator_a54818d3def33c9e587f3a90c42c9cf18}\label{class_integrator_a54818d3def33c9e587f3a90c42c9cf18}} 
-\mbox{\hyperlink{class_solution}{Solution}} \& {\bfseries get\+Solution} ()
+\mbox{\hyperlink{class_integrator_a3d25255dd0db87cdb45d1c0555480921}{Integrator}} (\mbox{\hyperlink{class_gradient}{Gradient}} \&f, Array1D \&y0, double t0, double tmax, int n\+Steps, std\+::string method)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{class_integrator}{Integrator}} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_integrator_a8cdff2a9aa7ab5d48f7f055dccd5731d}\label{class_integrator_a8cdff2a9aa7ab5d48f7f055dccd5731d}} 
+\mbox{\hyperlink{class_solution}{Solution}} {\bfseries sol}
 \end{DoxyCompactItemize}
 
 
@@ -25,11 +37,11 @@ integrate a system of ordinary differential equations.
 Implements the numerical integration of the Cauchy problem $y\textnormal{\textquotesingle}(t) = f(y(t),t)$. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{class_integrator_a610aace08fac490341fa7fc09acdf941}\label{class_integrator_a610aace08fac490341fa7fc09acdf941}} 
+\mbox{\Hypertarget{class_integrator_a3d25255dd0db87cdb45d1c0555480921}\label{class_integrator_a3d25255dd0db87cdb45d1c0555480921}} 
 \index{Integrator@{Integrator}!Integrator@{Integrator}}
 \index{Integrator@{Integrator}!Integrator@{Integrator}}
 \doxysubsubsection{\texorpdfstring{Integrator()}{Integrator()}}
-{\footnotesize\ttfamily Integrator\+::\+Integrator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_gradient}{Gradient}} \&}]{f,  }\item[{Array1d \&}]{y0,  }\item[{double}]{t0,  }\item[{double}]{tmax,  }\item[{int}]{n\+Steps,  }\item[{std\+::string \&}]{method }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Integrator\+::\+Integrator (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_gradient}{Gradient}} \&}]{f,  }\item[{Array1D \&}]{y0,  }\item[{double}]{t0,  }\item[{double}]{tmax,  }\item[{int}]{n\+Steps,  }\item[{std\+::string}]{method }\end{DoxyParamCaption})}
 
 
 
@@ -54,11 +66,14 @@ Performs the integration and saves the result into a \mbox{\hyperlink{class_solu
 \end{DoxyParams}
 The available integration methods are\+:
 \begin{DoxyItemize}
-\item \char`\"{}\+EE\char`\"{}\+: explicit Euler (\href{https://en.wikipedia.org/wiki/Euler_method}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Euler\+\_\+method}})
-\item \char`\"{}\+RK4\char`\"{}\+: explicit Runge-\/\+Kutta of VI order (\href{https://en.wikipedia.org/wiki/Runge\%E2\%80\%93Kutta_methods\#Examples}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Runge\%\+E2\%80\%93\+Kutta\+\_\+methods\#\+Examples}}) 
+\item \char`\"{}\+EE\char`\"{}\+: explicit Euler
+\item \char`\"{}\+SE\char`\"{}\+: symplectic Euler
+\item \char`\"{}\+RK4\char`\"{}\+: explicit Runge-\/\+Kutta of IV order (\href{https://en.wikipedia.org/wiki/Runge\%E2\%80\%93Kutta_methods\#Examples}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Runge\%\+E2\%80\%93\+Kutta\+\_\+methods\#\+Examples}})
+\item \char`\"{}\+RK5\char`\"{}\+: explicit Runge-\/\+Kutta of V order
+\item \char`\"{}\+Verlet\char`\"{}\+: velocity Verlet\textquotesingle{}s method (\href{https://en.wikipedia.org/wiki/Verlet_integration\#Velocity_Verlet}{\texttt{ https\+://en.\+wikipedia.\+org/wiki/\+Verlet\+\_\+integration\#\+Velocity\+\_\+\+Verlet}}) 
 \end{DoxyItemize}
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-lib\+ODE.\+h\item 
-lib\+ODE.\+cpp\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{lib_o_d_e_8h}{lib\+ODE.\+h}}\item 
+src/lib\+ODE.\+cpp\end{DoxyCompactItemize}

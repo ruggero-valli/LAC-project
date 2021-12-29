@@ -11,13 +11,13 @@ class testGradient : public Gradient{
     testGradient(double omega){
         this->omega = omega;
     }
-    Array1d operator()(Array1d y, double t){
+    Array1D operator()(Array1D y, double t){
         return -omega*omega*y;
     }
 };
 
 int main(int argc, char *argv[]){
-    double t0=0, tmax = 1;
+    double t0=0, tmax = 6;
     int nSteps = 100;
     double omega;
     string fileName;
@@ -31,10 +31,10 @@ int main(int argc, char *argv[]){
     }
 
     testGradient F(omega);
-    Array1d y0(2);
+    Array1D y0(2);
     y0[0] = 1;
     y0[1] = 0;
-
+    
     Integrator I(F, y0, t0, tmax, nSteps, (string)"SE");
 
     I.sol.SaveToMFile(fileName);

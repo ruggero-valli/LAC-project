@@ -72,7 +72,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_gradient-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Gradient Class Reference</div>  </div>
+<div class="title">Gradient Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -80,18 +80,28 @@ $(function() {
  <a href="class_gradient.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="lib_o_d_e_8h_source.html">libODE.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Gradient:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_gradient__inherit__graph.png" border="0" usemap="#a_gradient_inherit__map" alt="Inheritance graph"/></div>
+<map name="a_gradient_inherit__map" id="a_gradient_inherit__map">
+<area shape="rect" title="the gradient of a system of ordinary differential equation." alt="" coords="160,5,239,32"/>
+<area shape="rect" href="classlorenz_gradient.html" title=" " alt="" coords="5,80,124,107"/>
+<area shape="rect" href="classtest_gradient.html" title=" " alt="" coords="148,80,251,107"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0eedf72c54608c3aab7bf56b6cf3a4df"><td class="memItemLeft" align="right" valign="top"><a id="a0eedf72c54608c3aab7bf56b6cf3a4df"></a>
-virtual Array1d &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (Array1d &amp;y)</td></tr>
-<tr class="separator:a0eedf72c54608c3aab7bf56b6cf3a4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcd125f6bf7242d8d237bb4b99463a4b"><td class="memItemLeft" align="right" valign="top"><a id="abcd125f6bf7242d8d237bb4b99463a4b"></a>
+virtual Array1D&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (Array1D y, double t)=0</td></tr>
+<tr class="separator:abcd125f6bf7242d8d237bb4b99463a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>the gradient of a system of ordinary differential equation. </p>
 <p>This class is a functor that represents a function \(f(y, t)\) such that \(y&#39;(t) = f(y(t),t)\). </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="lib_o_d_e_8h_source.html">libODE.h</a></li>
+<li>src/<a class="el" href="lib_o_d_e_8h_source.html">libODE.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

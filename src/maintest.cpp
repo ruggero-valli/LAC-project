@@ -11,7 +11,7 @@ class testGradient : public Gradient{
     testGradient(double lambda){
         this->lambda = lambda;
     }
-    Array1d operator()(Array1d y, double t){
+    Array1D operator()(Array1D y, double t){
         return lambda*y;
     }
 };
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
     }
 
     testGradient F(lambda);
-    Array1d y0(1);
+    Array1D y0(1);
     y0 << 1;
 
     Integrator I(F, y0, t0, tmax, nSteps, (string)"EE");
