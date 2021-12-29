@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
     y0[0] = 1;
     y0[1] = 0;
     
-    Integrator I(F, y0, t0, tmax, nSteps, (string)"SE");
+    Integrator I(F, y0, t0, tmax, nSteps, (string)"Verlet");
 
     I.sol.SaveToMFile(fileName);
     }

@@ -61,6 +61,10 @@ Integrator::Integrator(Gradient& f, Array1D& y0, double t0, double tmax, int nSt
         integStep = RK4;
     } else if(method == "SE"){
         integStep = SE;
+    } else if(method == "Verlet"){  
+        integStep = Verlet;  
+    } else if(method == "RK5"){
+        integStep = RK5;    
     } else{    
         cout << "Integration method not recognized. Quitting";
         exit(1);
@@ -100,6 +104,16 @@ void SE(Gradient& f, Array1D& U, double t, double dt){
     join(U, r, v);
 }
 
+void Verlet(Gradient& f, Array1D& U, double t, double dt){
+    Array1D r, v, a0, a1;
+    split(U,r,v);
+    a0=f(r,t);
+    r = r + v * dt + f(r,t) * dt * dt / 2;
+    a1=f(r,t);
+    v = v + (a0 + a1) * dt / 2;
+    join(U, r, v);
+}
+
 void RK4(Gradient& f, Array1D& U, double t, double dt){
     Array1D k1, k2, k3, k4;
     k1.resizeLike(U);
@@ -114,5 +128,22 @@ void RK4(Gradient& f, Array1D& U, double t, double dt){
     U += dt/6*(k1 + 2*k2 + 2*k3 +k4);
 }
 
-void RK5(Gradient& f, Array1D& U, double t, double dt){}
-void Verlet(Gradient& f, Array1D& U, double t, double dt){}
+void RK5(Gradient& f, Array1D& U, double t, double dt){
+    Array1D k1, k2, k3, k4, k5, k6;
+    k1.resizeLike(U);
+    k2.resizeLike(U);
+    k3.resizeLike(U);
+    k4.resizeLike(U);
+    k5.resizeLike(U);
+    k6.resizeLike(U);
+
+    k1 = f(U, t) * dt;
+    k2 = f(U+2/9*k1, t+2/9*dt) * dt;
+    k3 = f(U+1/12*k1+1/4*k2, t+1/3*dt)*dt;
+    k4 = f(U+69/128*k1-243/128*k2+135/64*k3, t+3/4*dt)*dt;
+    k5 = f(U-17/12*k1+27/4*k2-27/5*k3+16/15*k4, t+dt) * dt;
+    k6 = f(U+65/432*k1-5/16*k2+13/16*k3+4/27*k4+5/144*k5, t+5/6*dt) *dt;
+
+    U+= 47/450*k1+12/25*k3+32/225*k4+1/30*k5+6/25*k6;
+}
+

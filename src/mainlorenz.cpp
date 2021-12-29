@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     Array1D y0(3);
     y0[0] = 1; y0[1] = 1; y0[2] = 1;
 
-    Integrator I(F, y0, t0, tmax, nSteps, (string)"RK4");
+    Integrator I(F, y0, t0, tmax, nSteps, (string)"RK5");
     
     string FileName;
     if (argc > 1){

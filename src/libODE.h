@@ -184,5 +184,27 @@ void EE(Gradient& f, Array1D& U, double t, double dt);
 void SE(Gradient& f, Array1D& U, double t, double dt);
 void RK4(Gradient& f, Array1D& U, double t, double dt);
 void RK5(Gradient& f, Array1D& U, double t, double dt);
+/**
+ * @brief Performs one integration step using the Velocity Verlet method.
+ * 
+ * The integration step of the method is:
+ * 
+ * r_{i+1} = r_i + v_{i} dt + \frac{f(r_i,t) \cdot dt^2}{2}
+ * v_{i+1} = v_i + \frac{f(r_i, t) + f(r_{i+1}, t + dt)}{2} *dt
+ * Wikipedia: https://https://en.wikipedia.org/wiki/Verlet_integration
+ * 
+ * @param f is the acceleration
+ * @param U is an array that contains the solution vector at time `t`
+ * @param t is the time
+ * @param dt is the integration timestep
+ * 
+ * If 2N is the number of first order equations in the problem, `U` is an array
+ * of length 2N. The first N elements correspond to the position variables.
+ * The elements from `N+1` to `2N-1` correspond to the velocity variables, such
+ * that for each i, U[N+i] is the velocity associated with the position stored
+ * at U[i].
+ * 
+ */
+
 void Verlet(Gradient& f, Array1D& U, double t, double dt);
 #endif
