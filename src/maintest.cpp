@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
         lambda = atof(argv[1]);
         fileName = argv[2];
     } else {
-        cout << "Arguments required: double omega, string fileName\n";
+        cout << "Arguments required: double lambda, string fileName\n";
         exit(1);
     }
 

@@ -66,7 +66,7 @@ Integrator::Integrator(Gradient& f, Array1D& y0, double t0, double tmax, int nSt
     } else if(method == "RK5"){
         integStep = RK5;    
     } else{    
-        cout << "Integration method not recognized. Quitting";
+        cout << "Integration method " << method << " not recognized. Quitting";
         exit(1);
     }
 
@@ -108,7 +108,7 @@ void Verlet(Gradient& f, Array1D& U, double t, double dt){
     Array1D r, v, a0, a1;
     split(U,r,v);
     a0=f(r,t);
-    r = r + v * dt + f(r,t) * dt * dt / 2;
+    r = r + v * dt + a0 * dt * dt / 2;
     a1=f(r,t);
     v = v + (a0 + a1) * dt / 2;
     join(U, r, v);
