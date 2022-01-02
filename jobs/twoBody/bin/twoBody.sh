@@ -16,7 +16,8 @@ c++ -I  "$PROJECT_PATH/lib/eigen-3.4.0"\
         "$PROJECT_PATH/src/libODE.cpp"\
         "$PROJECT_PATH/src/libGradient.cpp"\
         src/main.cpp\
-        -o bin/main
+        -o bin/main\
+    -lm
 echo "Compilato!"
 
 
@@ -25,4 +26,4 @@ bin/main "$JOB_PATH/output/prova.m"
 echo "Eseguito!"
 
 cd "$JOB_PATH/bin"
-matlab -r grafico_prova  -nosplash -nodesktop
+#matlab -r grafico_prova  -nosplash -nodesktop

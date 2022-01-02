@@ -10,7 +10,6 @@
 #ifndef LIBGRADIENT_H 
 #define LIBGRADIENT_H
 
-#include <vector>
 #include "libODE.h"
 
 class testGradient : public Gradient{
@@ -43,17 +42,17 @@ class oscillatorGradient : public Gradient{
 
 class NbodiesGradientSymp : public Gradient{
     public:
-    std::vector<double> m;
+    Array1D m;
 
-    NbodiesGradientSymp(std::vector<double> m);
+    NbodiesGradientSymp(Array1D m);
     Array1D operator()(Array1D y, double t);
 };
 
 class NbodiesGradient : public Gradient{
     public:
-    std::vector<double> m;
+    Array1D m;
 
-    NbodiesGradient(std::vector<double> m);
+    NbodiesGradient(Array1D m);
     Array1D operator()(Array1D y, double t);
 };
 

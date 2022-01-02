@@ -31,7 +31,7 @@ void Solution::SaveToMFile(string FileName){
     myfile << "U=[ " << '\n';
     for(int i=0; i<nSteps; i++){
         for(int j=0; j<nEquations; j++){
-           myfile << U(i,j) << " " ;
+            myfile << U(i,j) << " " ;
         }
         myfile << '\n';
     }
