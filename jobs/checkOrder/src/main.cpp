@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include "libODE.h"
+#include "libGradient.h"
 
 using namespace std;
 
@@ -11,28 +12,6 @@ void checkOrder(string& method, vector<double>& dt, vector<double>& err);
 void checkOrderStandard(string& method, vector<double>& dt, vector<double>& err);
 void checkOrderSymplectic(string& method, vector<double>& dt, vector<double>& err);
 void toFile(string& method, vector<double>& dt, vector<double>& err, string& outpath);
-
-class testGradient : public Gradient{
-    public:
-    double lambda;
-    testGradient(double lambda){
-        this->lambda = lambda;
-    }
-    Array1D operator()(Array1D y, double t){
-        return lambda*y;
-    }
-};
-
-class oscillatorGradient : public Gradient{
-    public:
-    double omega;
-    oscillatorGradient(double omega){
-        this->omega = omega;
-    }
-    Array1D operator()(Array1D y, double t){
-        return -omega*omega*y;
-    }
-};
 
 int main(int argc, char *argv[]){
     string method, outpath;
@@ -90,7 +69,7 @@ void checkOrderStandard(string& method, vector<double>& dt, vector<double>& err)
 
 void checkOrderSymplectic(string& method, vector<double>& dt, vector<double>& err){
     double t0=0, tmax=6, y0 = 1, omega = 1, t;
-    oscillatorGradient F(omega);
+    oscillatorGradientSymp F(omega);
     Array1D U0(2);
     int nSteps;
     double exact;

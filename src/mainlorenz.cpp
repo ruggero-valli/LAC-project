@@ -1,29 +1,15 @@
 #include <iostream>
 #include <string>
 #include "libODE.h"
+#include "libGradient.h"
 
 using namespace std;
-
-class lorenzGradient : public Gradient{
-    public:
-    Array1D operator()(Array1D y, double t){
-    Array1D f;
-    f.resizeLike(y);
-    double sigma=10;
-    double ro=28;
-    double beta=8/3;
-    f(0)=sigma*(y(1)-y(0));
-    f(1)=ro*y(1) - y(1)*y(2) - y(1);
-    f(2)=y(0)*y(1) -beta*y(2);
-    return f;
-    }
-};
 
 int main(int argc, char *argv[]){
 
     double t0=0, tmax = 1000;
     int nSteps = 1000000;
-    lorenzGradient F;
+    lorenzGradient F(10,28,8./3);
     Array1D y0(3);
     y0[0] = 1; y0[1] = 1; y0[2] = 1;
 

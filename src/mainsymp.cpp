@@ -1,20 +1,9 @@
 #include <iostream>
 #include <string>
 #include "libODE.h"
+#include "libGradient.h"
 
 using namespace std;
-
-class testGradient : public Gradient{
-    private:
-    double omega;
-    public:
-    testGradient(double omega){
-        this->omega = omega;
-    }
-    Array1D operator()(Array1D y, double t){
-        return -omega*omega*y;
-    }
-};
 
 int main(int argc, char *argv[]){
     double t0=0, tmax = 6;
@@ -30,7 +19,7 @@ int main(int argc, char *argv[]){
         exit(1);
     }
 
-    testGradient F(omega);
+    oscillatorGradientSymp F(omega);
     Array1D y0(2);
     y0[0] = 1;
     y0[1] = 0;

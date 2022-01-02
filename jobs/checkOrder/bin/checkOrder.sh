@@ -14,6 +14,7 @@ cd "$JOB_PATH"
 c++ -I  "$PROJECT_PATH/lib/eigen-3.4.0"\
     -I  "$PROJECT_PATH/src"\
         "$PROJECT_PATH/src/libODE.cpp"\
+        "$PROJECT_PATH/src/libGradient.cpp"\
         src/main.cpp\
         -o bin/main
 echo "Compilato!"

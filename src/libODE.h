@@ -205,6 +205,6 @@ void RK5(Gradient& f, Array1D& U, double t, double dt);
  * at U[i].
  * 
  */
-
 void Verlet(Gradient& f, Array1D& U, double t, double dt);
+
 #endif

@@ -1,20 +1,9 @@
 #include <iostream>
 #include <string>
 #include "libODE.h"
+#include "libGradient.h"
 
 using namespace std;
-
-class testGradient : public Gradient{
-    private:
-    double lambda;
-    public:
-    testGradient(double lambda){
-        this->lambda = lambda;
-    }
-    Array1D operator()(Array1D y, double t){
-        return lambda*y;
-    }
-};
 
 int main(int argc, char *argv[]){
     double t0=0, tmax = 1;
