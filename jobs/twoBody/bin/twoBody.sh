@@ -26,4 +26,4 @@ bin/main "$JOB_PATH/output/prova.m"
 echo "Eseguito!"
 
 cd "$JOB_PATH/bin"
-#matlab -r grafico_prova  -nosplash -nodesktop
+matlab -r analisi  -nosplash -nodesktop

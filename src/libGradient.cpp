@@ -2,6 +2,7 @@
 #include "Eigen/Dense"
 #include "libODE.h"
 #include "libGradient.h"
+#include <iostream>
 //#include "libUnits.h"
 
 using namespace Eigen;
@@ -63,22 +64,23 @@ NbodiesGradientSymp::NbodiesGradientSymp(Array1D m){
 
 Array1D NbodiesGradientSymp :: operator()(Array1D y, double t){
     int N = y.size()/3;
-    Array2D r = y.matrix().reshaped(N, 3).array();
+    Array2D r = y.matrix().reshaped(3, N).array();
     Array1D dij, d;
     Array1D dydt;
-    Array2D dvdt = Array2D :: Zero(N, 3);
+    Array2D dvdt = Array2D :: Zero(3, N);
     double d2;
     
     for(int i = 0; i < N; i++){
         for(int j = 0; j < i; j++){
-            dij = r(j, all) - r(i, all);
+            dij = r(all, j) - r(all, i);
             d2 = dij(0)*dij(0) + dij(1)*dij(1) + dij(2)*dij(2);
-            d = dij / pow(d2, 3./2);
-            dvdt(i, all) += m(j)*d;
-            dvdt(j, all) -= m(i)*d;
+            d = dij * pow(d2, -3./2);
+            dvdt(all, i) += m(j)*d;
+            dvdt(all, j) -= m(i)*d;
         }
     }
     dydt = dvdt.matrix().reshaped(3*N, 1).array();
+    //cout << dvdt << " l" << "\n";
     return dydt;
 }
 
