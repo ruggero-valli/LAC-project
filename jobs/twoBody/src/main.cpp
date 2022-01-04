@@ -5,9 +5,20 @@
 #include "libUnits.h"
 
 using namespace std;
+using namespace units;
 
 int main(int argc, char *argv[]){
-
+    string outFilePath;
+    string cfgUnitsFilePath;
+    if (argc > 2){
+        outFilePath = argv[1];
+        cfgUnitsFilePath = argv[2];
+    }
+    else {
+        cout << "Pass a fileName!";
+        exit(1);
+    }
+    units::init(cfgUnitsFilePath);
     double t0=0, tmax = 100;
     int nSteps = 1000;
     int N = 2;
@@ -27,13 +38,5 @@ int main(int argc, char *argv[]){
 
     Integrator I(F, y0, t0, tmax, nSteps, (string)"Verlet");
     
-    string FileName;
-    if (argc > 1){
-        FileName = argv[1];
-    }
-    else {
-        cout << "Pass a fileName!";
-        exit(1);
-    }
-    I.sol.SaveToMFile(FileName);
+    I.sol.SaveToMFile(outFilePath);
     }

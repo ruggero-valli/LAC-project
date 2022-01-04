@@ -28,19 +28,23 @@ void Solution::setIC(Array1D& y0, double t0){
 
 void Solution::SaveToMFile(string FileName){
     ofstream myfile(FileName, ios_base::out);
-    myfile << "U=[ " << '\n';
-    for(int i=0; i<nSteps; i++){
-        for(int j=0; j<nEquations; j++){
-            myfile << U(i,j) << " " ;
+    if (myfile.is_open()){
+        myfile << "U=[ " << '\n';
+        for(int i=0; i<nSteps; i++){
+            for(int j=0; j<nEquations; j++){
+                myfile << U(i,j) << " " ;
+            }
+            myfile << '\n';
         }
-        myfile << '\n';
+        myfile << "];" << '\n';
+        myfile << "t=[ " << '\n';
+        for (int i=0; i<nSteps; i++){
+            myfile << t[i] << '\n';
+        }
+        myfile << "];" << '\n';
+        
+        myfile.close();
     }
-    myfile << "];" << '\n';
-    myfile << "t=[ " << '\n';
-    for (int i=0; i<nSteps; i++){
-        myfile << t[i] << '\n';
-    }
-    myfile << "];" << '\n';
 }
 
 Integrator::Integrator(Gradient& f, Array1D& y0, double t0, double tmax, int nSteps, string method){

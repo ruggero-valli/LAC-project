@@ -1,11 +1,16 @@
 #ifndef UNITS_H
 #define UNITS_H
-#include <math.h>
 
-double M = 2.0e30;              // Massa Sole in kg
-double L = 5.7e10;              // Semiasse maggiore Mercurio in m
-double G = 6.6725985e-11;       // Gravitational constant
-double T = sqrt(L*L*L/M/G);     // Tempo caratteristico in s
-//G = 1;
+#include <string>
+
+namespace units{
+    
+extern double M;       // Mass unit: Sun's mass in kilograms
+extern double L;       // Length unit: Mercury's semimajor axis in metres
+extern double G;       // Gravitational constant
+extern double T;       // Time unit: characteristic time in seconds
+
+void init(std::string& cfgFilePath);
+}
 
 #endif

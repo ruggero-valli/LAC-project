@@ -15,6 +15,8 @@ c++ -I  "$PROJECT_PATH/lib/eigen-3.4.0"\
     -I  "$PROJECT_PATH/src"\
         "$PROJECT_PATH/src/libODE.cpp"\
         "$PROJECT_PATH/src/libGradient.cpp"\
+        "$PROJECT_PATH/src/libIO.cpp"\
+        "$PROJECT_PATH/src/libUnits.cpp"\
         src/main.cpp\
         -o bin/main\
     -lm
@@ -22,8 +24,8 @@ echo "Compilato!"
 
 
 # Execute program
-bin/main "$JOB_PATH/output/prova.m"
+bin/main "$JOB_PATH/output/prova.m" "$PROJECT_PATH/config/units.m"
 echo "Eseguito!"
 
 cd "$JOB_PATH/bin"
-matlab -r analisi  -nosplash -nodesktop
+#matlab -r analisi  -nosplash -nodesktop
