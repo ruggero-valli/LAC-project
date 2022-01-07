@@ -15,8 +15,9 @@ c++ -I  "$PROJECT_PATH/lib/eigen-3.4.0"\
     -I  "$PROJECT_PATH/src"\
         "$PROJECT_PATH/src/libODE.cpp"\
         "$PROJECT_PATH/src/libGradient.cpp"\
-        "$PROJECT_PATH/src/libIO.cpp"\
+        "$PROJECT_PATH/src/libUtils.cpp"\
         "$PROJECT_PATH/src/libUnits.cpp"\
+        "$PROJECT_PATH/src/libNBody.cpp"\
         src/main.cpp\
         -o bin/main\
     -lm

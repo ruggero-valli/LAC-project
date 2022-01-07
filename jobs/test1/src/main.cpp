@@ -7,7 +7,7 @@ using namespace std;
 
 int main(int argc, char *argv[]){
     double t0=0, tmax = 1;
-    int nSteps = 10;
+    int nSteps = 100;
     double lambda;
     string fileName;
 

@@ -5,10 +5,10 @@
 
 namespace units{
     
-extern double M;       // Mass unit: Sun's mass in kilograms
-extern double L;       // Length unit: Mercury's semimajor axis in metres
+extern double M;       // Mass unit
+extern double L;       // Length unit
 extern double G;       // Gravitational constant
-extern double T;       // Time unit: characteristic time in seconds
+extern double T;       // Time unit
 
 void init(std::string& cfgFilePath);
 }

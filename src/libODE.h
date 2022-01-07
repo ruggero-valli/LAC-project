@@ -11,11 +11,7 @@
 #ifndef LIBODE_H
 #define LIBODE_H
 
-#include "Eigen/Dense"
-#include <string>
-
-typedef Eigen::ArrayXd Array1D;
-typedef Eigen::ArrayXXd Array2D;
+#include "libUtils.h"
 
 /**
  * @brief the gradient of a system of ordinary differential equation.
@@ -109,29 +105,6 @@ class Integrator{
 };
 
 /**
- * @brief splits the array in half.
- * 
- * The array `U` is split in two equal-length parts. The first half is copied
- * into the array `r`, the second one into the array `v`.
- * 
- * @param[in] U the array to be split
- * @param[out] r the first half of the array
- * @param[out] v the second half of the array
- */
-void split(Array1D& U, Array1D& r, Array1D& v);
-
-/**
- * @brief concatenates two arrays into one.
- * 
- * The array `r` and the array `v` are concatenated into the array `U`.
- * 
- * @param[out] U the resulting array
- * @param[in] r the first half of the array
- * @param[in] v the second half of the array
- */
-void join(Array1D& U, Array1D& r, Array1D& v);
-
-/**
  * @brief a template for the integration step functions
  * 
  */
@@ -184,6 +157,7 @@ void EE(Gradient& f, Array1D& U, double t, double dt);
 void SE(Gradient& f, Array1D& U, double t, double dt);
 void RK4(Gradient& f, Array1D& U, double t, double dt);
 void RK5(Gradient& f, Array1D& U, double t, double dt);
+
 /**
  * @brief Performs one integration step using the Velocity Verlet method.
  * 

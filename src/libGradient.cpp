@@ -1,12 +1,11 @@
-#include <math.h>
-#include "Eigen/Dense"
-#include "libODE.h"
 #include "libGradient.h"
 #include <iostream>
-//#include "libUnits.h"
+#include <math.h>
+#include "Eigen/Dense"
+#include "libUtils.h"
 
-using namespace Eigen;
 using namespace std;
+using namespace Eigen;
 
 testGradient :: testGradient(double lambda){
     this->lambda = lambda;
@@ -80,7 +79,6 @@ Array1D NbodiesGradientSymp :: operator()(Array1D y, double t){
         }
     }
     dydt = dvdt.matrix().reshaped(3*N, 1).array();
-    //cout << dvdt << " l" << "\n";
     return dydt;
 }
 
@@ -99,3 +97,5 @@ Array1D NbodiesGradient :: operator()(Array1D y, double t){
 
     return dydt;
 }
+
+
