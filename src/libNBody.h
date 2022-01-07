@@ -6,7 +6,7 @@
 
 namespace NBody{
     
-extern int N;
+extern int Npart;
 extern Array1D m;
 extern Array2D r0;
 extern Array2D v0;

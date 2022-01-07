@@ -8,7 +8,7 @@ using namespace std;
 
 namespace NBody{
 
-int N;
+int Npart;
 Array1D m;
 Array2D r0;
 Array2D v0;
@@ -18,7 +18,7 @@ bool parseCommand(ifstream& cfgFile);
 void checkMissing();
 
 void init(string& cfgFilePath){
-    N = 0;
+    Npart = 0;
     parseCfgFile(cfgFilePath);
     checkMissing();
 }
@@ -45,16 +45,16 @@ bool parseCommand(ifstream& cfgFile){
     }
     parseLine(line, command, value);
 
-    if (command == "N"){
-        N = stoi(value);
+    if (command == "Npart"){
+        Npart = stoi(value);
     }else if (command == "m"){
         erase(value, '[');
         erase(value, ']');
-        m = readArray1D(value, N);
+        m = readArray1D(value, Npart);
     }else if (command == "r0"){
-        r0 == readArray2D(cfgFile, 3, N);
+        r0 == readArray2D(cfgFile, 3, Npart);
     }else if (command == "v0"){
-        v0 == readArray2D(cfgFile, 3, N);
+        v0 == readArray2D(cfgFile, 3, Npart);
     } else {
         cout << "Error: command '" << line << "' not recognized!\n";
         exit(1);
@@ -63,7 +63,7 @@ bool parseCommand(ifstream& cfgFile){
 }
 
 void checkMissing(){
-    if (N==0){
+    if (Npart==0){
         cout << "Error: variable N not set";
         exit(2);
     } else if (m.size()==0){

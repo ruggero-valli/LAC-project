@@ -1,5 +1,5 @@
 % Number of bodies in the simulation
-N = 2
+Npart = 2
 
 % Masses of the bodies in kg
 m = [1.989e30, 3.285e23]

@@ -6,7 +6,6 @@
 #include "libNBody.h"
 
 using namespace std;
-using namespace units;
 
 int main(int argc, char *argv[]){
     string outFilePath;
@@ -28,7 +27,7 @@ int main(int argc, char *argv[]){
     int nSteps = 1000;
 
     NbodiesGradientSymp F(NBody::m);
-    Array1D y0(6*NBody::N);
+    Array1D y0(6*NBody::Npart);
     RVtoU(y0,NBody::r0, NBody::v0);
 
     Integrator I(F, y0, t0, tmax, nSteps, (string)"Verlet");
