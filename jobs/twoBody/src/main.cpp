@@ -26,11 +26,11 @@ int main(int argc, char *argv[]){
     double t0=0, tmax = 6.28*200;
     int nSteps = 1000*200;
 
-    NbodiesGradientSymp F(NBody::m);
+    NbodiesGradient F(NBody::m);
     Array1D y0(6*NBody::Npart);
     RVtoU(y0,NBody::r0, NBody::v0);
 
-    Integrator I(F, y0, t0, tmax, nSteps, (string)"Verlet");
+    Integrator I(F, y0, t0, tmax, nSteps, (string)"RK");
     
     I.sol.SaveToMFile(outFilePath);
     }
