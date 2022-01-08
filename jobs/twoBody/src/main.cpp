@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
         cfgNBodyFilePath = argv[3];
     }
     else {
-        cout << "Pass a fileName!";
+        cout << "Error: Pass a fileName!\n";
         exit(1);
     }
     units::init(cfgUnitsFilePath);

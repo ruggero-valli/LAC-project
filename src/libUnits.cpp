@@ -28,7 +28,7 @@ void init(string& cfgFilePath){
 void parseCfgFile(string& cfgFilePath){
     ifstream cfgFile(cfgFilePath);
     if (cfgFile.is_open()){
-        bool isEOF;
+        bool isEOF=false;
         while (!isEOF){
             isEOF = parseCommand(cfgFile);
         }
@@ -39,11 +39,11 @@ void parseCfgFile(string& cfgFilePath){
 bool parseCommand(ifstream& cfgFile){
     string line, command, value;
     if (!getline(cfgFile, line)){
-        return false;
+        return true;
     }
     erase(line, ' ');
     if (line[0] == '%' || line.empty()){
-        return true; // lines starting with '%' are comments
+        return false; // lines starting with '%' are comments
     }
     parseLine(line, command, value);
     
@@ -57,18 +57,18 @@ bool parseCommand(ifstream& cfgFile){
         cout << "Error: command '" << line << "' not recognized!\n";
         exit(1);
     }
-    return true;
+    return false;
 }
 
 void checkMissing(){
     if (M==0){
-        cout << "Error: variable M not set";
+        cout << "Error: variable M not set\n";
         exit(2);
     } else if (L==0){
-        cout << "Error: variable L not set";
+        cout << "Error: variable L not set\n";
         exit(2);
     } else if (G==0){
-        cout << "Error: variable G not set";
+        cout << "Error: variable G not set\n";
         exit(2);
     }
 }

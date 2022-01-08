@@ -8,17 +8,20 @@
 using namespace std;
 using namespace Eigen;
 
-void parseLine(const string line, string& command, string& value){
+void parseLine(string line, string& command, string& value){
+    erase(line, ' ');
+    erase(line, ';');
     int eqIndex = line.find('=');
     command = line.substr(0,eqIndex);
     value = line.substr(eqIndex+1, line.size());
-    erase(command, ' ');
-    erase(value, ' ');
 }
 
-Array1D readArray1D(string& str, int len){
-    Array1D arr(len);
+Array1D readArray1D(string str, int len){
     erase(str, ' ');
+    erase(str, '[');
+    erase(str, ']');
+    erase(str, ';');
+    Array1D arr(len);
     stringstream ss(str);
     int i=0;
     while(ss.good()){
@@ -33,7 +36,7 @@ Array1D readArray1D(string& str, int len){
 Array2D readArray2D(ifstream& cfgFile, int rows, int cols){
     string line;
     Array1D row;
-    Array2D arr;
+    Array2D arr(rows, cols);
     for (int i=0; i<rows; i++){
         if (!getline(cfgFile, line)){
             cout << "Error: malformed stream. Expected " << rows << "rows\n";
@@ -43,6 +46,11 @@ Array2D readArray2D(ifstream& cfgFile, int rows, int cols){
         for (int j=0; j<cols; j++){
             arr(i,j) = row[j];
         }
+    }
+    // read last line containg '];' and discard it
+    if (!getline(cfgFile, line)){
+        cout << "Error: malformed stream. Expected " << rows << "rows\n";
+        exit(3);
     }
     return arr;
 }

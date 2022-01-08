@@ -8,8 +8,8 @@
 typedef Eigen::ArrayXd Array1D;
 typedef Eigen::ArrayXXd Array2D;
 
-void parseLine(const std::string line, std::string& command, std::string& value);
-Array1D readArray1D(std::string& str, int len);
+void parseLine(std::string line, std::string& command, std::string& value);
+Array1D readArray1D(std::string str, int len);
 Array2D readArray2D(std::ifstream& cfgFile, int rows, int cols);
 
 /**
