@@ -13,11 +13,7 @@ echo PROJECT PATH: $PROJECT_PATH
 cd "$JOB_PATH"
 c++ -I  "$PROJECT_PATH/lib/eigen-3.4.0"\
     -I  "$PROJECT_PATH/src"\
-        "$PROJECT_PATH/src/libODE.cpp"\
-        "$PROJECT_PATH/src/libGradient.cpp"\
-        "$PROJECT_PATH/src/libUtils.cpp"\
-        "$PROJECT_PATH/src/libUnits.cpp"\
-        "$PROJECT_PATH/src/libNBody.cpp"\
+        "$PROJECT_PATH/src/"*.cpp\
         src/main.cpp\
         -o bin/main\
     -lm
