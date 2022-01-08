@@ -23,8 +23,8 @@ int main(int argc, char *argv[]){
     units::init(cfgUnitsFilePath);
     NBody::init(cfgNBodyFilePath);
     
-    double t0=0, tmax = 100;
-    int nSteps = 1000;
+    double t0=0, tmax = 6.28*200;
+    int nSteps = 1000*200;
 
     NbodiesGradientSymp F(NBody::m);
     Array1D y0(6*NBody::Npart);
