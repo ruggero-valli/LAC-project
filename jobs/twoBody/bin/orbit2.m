@@ -8,58 +8,76 @@ U_v = reshape(U(:, 7:12), [], 3, 2);
 T = sqrt(L*L*L/M/G);
 G = 1;
 
-r0 = r0/L;
-v0 = v0*T/L;
+r0_vec = r0/L;
+v0_vec = v0*T/L;
 m = m/M;
 
-[r,v,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
-[r0, v0, ~, ~] = coord_change(r0(:,1), r0(:,2), v0(:,1), v0(:, 2), m);
-theta = angolo(r);
-R = orbit(theta, r0, v0, m(1)+m(2));
+[r_vec,v_vec,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
+[r0_vec, v0_vec, ~, ~] = coord_change(r0_vec(:,1), r0_vec(:,2), v0_vec(:,1), v0_vec(:, 2), m);
+theta = angolo(r_vec);
+R = orbit(theta, r0_vec, v0_vec, m(1)+m(2));
+r = sqrt(sum(r_vec.^2,2));
 
 %%
 figure();
 plot(R.*cos(theta), R.*sin(theta), '.');
 hold on
-plot(r(:,1), r(:,2),'.');
+plot(r.*cos(theta), r.*sin(theta), '.');
 xlabel('R*cos(theta)');
 ylabel('R*sin(theta)');
 title('2 bodies orbit');
 
 figure();
-mod = sqrt(sum(r.^2,2));
-err = (R-mod)./R;
+err = (R-r)./R;
 plot(err,'.');
 max(abs(err))
 
 %%
-[tp, thetap, rp] = periastron(t,mod,theta);
+%t = transpose(linspace(0,400,1000));
+%theta = mod(t+pi, 2*pi)-pi;
+%R = orbit(theta, r0_vec, v0_vec, m(1)+m(2));
+[tp,rp,thetap] = periastron(t,r,theta);
 %%
 figure()
 plot(rp.*cos(thetap),rp.*sin(thetap),'.');
 hold on
-plot(mod.*cos(theta),mod.*sin(theta),'.');
+plot(r.*cos(theta),r.*sin(theta),'.');
 
 %%
 figure()
 plot(tp, thetap-pi,'.');
+hold on
+plot(tp, thetap+pi, '.');
+
+%%
+figure()
+plot(thetap, rp,'.');
+hold on
+plot(theta, r,'.');
+
 
 %%
 figure();
 plot(tp, rp,'.');
-hold on
-plot(t,mod,'.');
+%hold on
+%plot(t,r,'.');
 
 %%
-function R = orbit(theta, r0, v0, mu)
-    mod_r = norm(r0);  
-    mod_v = norm(v0);
-    v_theta = (r0(1).*v0(2) - r0(2).*v0(1))/mod_r;
-    v_r = (r0(1)*v0(1)+r0(2)*v0(2))/mod_r;
-    e = sqrt(1+(mod_r.*v_theta^2/mu)*((mod_r*mod_v^2/mu)-2));  
-    a = (mu*mod_r)/(2*mu - mod_r*mod_v^2);
+figure();
+plot(t,theta, '.')
+hold on;
+plot(tp, thetap, '.')
+
+%%
+function R = orbit(theta, r0_vec, v0_vec, mu)
+    r = norm(r0_vec);  
+    v = norm(v0_vec);
+    v_theta = (r0_vec(1).*v0_vec(2) - r0_vec(2).*v0_vec(1))/r;
+    v_r = (r0_vec(1)*v0_vec(1)+r0_vec(2)*v0_vec(2))/r;
+    e = sqrt(1+(r.*v_theta^2/mu)*((r*v^2/mu)-2));  
+    a = (mu*r)/(2*mu - r*v^2);
     
-    arg = (a*(1-e^2)-mod_r)/(e*mod_r);
+    arg = (a*(1-e^2)-r)/(e*r);
     s = sign(v_theta*v_r);
     if (s == 0)
         s=1;
@@ -70,31 +88,31 @@ function R = orbit(theta, r0, v0, mu)
     if arg < -1
         arg = -1;
     end
-    Dtheta = s.*acos(arg) - atan2(r0(2), r0(1));
+    Dtheta = s.*acos(arg) - atan2(r0_vec(2), r0_vec(1));
     R = a.*(1-e.^2)./(1+e.*cos(theta+Dtheta));
 end
 
-function [r, v, r_g, v_g] = coord_change(r10, r20, v10, v20, m)
-    v_g = (m(1)*v10 + m(2)*v20)/(m(1)+m(2));
-    r_g = (m(1)*r10 + m(2)*r20)/(m(1)+m(2));
-    r = r20 - r10;
-    v = v20 - v10;
+function [r_vec, v_vec, rg_vec, vg_vec] = coord_change(r10_vec, r20_vec, v10_vec, v20_vec, m)
+    vg_vec = (m(1)*v10_vec + m(2)*v20_vec)/(m(1)+m(2));
+    rg_vec = (m(1)*r10_vec + m(2)*r20_vec)/(m(1)+m(2));
+    r_vec = r20_vec - r10_vec;
+    v_vec = v20_vec - v10_vec;
 end
 
-function theta = angolo(r)
-    theta = atan2(r(:, 2),r(:,1));
+function theta = angolo(r_vec)
+    theta = atan2(r_vec(:, 2),r_vec(:,1));
 end
 
-function [tp, thetap, rp] = periastron(t,r,theta)
+function [tp, rp, thetap] = periastron(t,r,theta)
     % look for local minima
     [~,min_idx] = findpeaks(-r(:,1));
-
-    tp = zeros(length(min_idx));
-    thetap = zeros(length(min_idx));
-    rp = zeros(length(min_idx));
+    tp = zeros(length(min_idx),1);
+    thetap = zeros(length(min_idx),1);
+    rp = zeros(length(min_idx),1);
     
     delta = 1;
     i = 0;
+    figure();
     % for every local minima, find the exact point
     for idx = transpose(min_idx)
         i = i+1;
@@ -105,21 +123,41 @@ function [tp, thetap, rp] = periastron(t,r,theta)
         t_span = t(i_span);
         r_span = r(i_span);
         theta_span = theta(i_span);
+
+        % checking if the periastron is near 2pi and the theta_span
+        % overlaps with the jump from 2pi to 0.
+        if (max(theta_span) - min(theta_span) > 2)
+            theta_span(theta_span < 0.1) = theta_span(theta_span < 0.1)+2*pi;
+        end
+        
         % parabolic fit of the points around the minimum
-        f=fit(t_span,r_span,'poly2');
+        f=fit(theta_span,r_span,'poly2');
         coef = coeffvalues(f);
         a = coef(1);
         b = coef(2);
         c = coef(3);
         % a,b,c are the three coefficients of a parabola
-        tp(i) = -b/(2*a);
+
+        % Calcolo analitico dei coefficienti. Non è preciso come il fit
+        %k1 = (theta_span(1)-theta_span(2))*(theta_span(1)-theta_span(3));
+        %k2 = (theta_span(2)-theta_span(1))*(theta_span(2)-theta_span(3));
+        %k3 = (theta_span(3)-theta_span(1))*(theta_span(3)-theta_span(2));
+        %a = r_span(1)/k1 + r_span(2)/k2 + r_span(3)/k3;
+        %b = -r_span(1)*(theta_span(2)+theta_span(3))/k1 - r_span(2)*(theta_span(1)+theta_span(3))/k2 - r_span(3)*(theta_span(1)+theta_span(2))/k3;
+        %c = r_span(1)*theta_span(2)*theta_span(3)/k1 + r_span(2)*theta_span(1)*theta_span(3)/k2 + r_span(3)*theta_span(1)*theta_span(2)/k3;
+
+        thetap(i) = -b/(2*a);
         rp(i) = c-b^2/(4*a);
         
-        % this line is a workaround for when the periastron is near
-        % theta=pi. Need to find something better
-        theta_span(theta_span < 0.1) = theta_span(theta_span < 0.1)+2*pi;
-        % find the theta of periastron through a linear interpolation
-        thetap(i) = interp1(t_span, theta_span, tp(i));
+        % Plot showing the fitted curves
+        %plot(theta_span+i,r_span,'b.');
+        %hold on;
+        %plot(thetap(i)+i, rp(i),'r.');
+        %ttheta = linspace(theta_span(1), theta_span(3));
+        %plot(ttheta+i, a.*ttheta.*ttheta+b.*ttheta+c,'g');
+        
+        % find the time of periastron through a linear interpolation
+        tp(i) = interp1(theta_span, t_span, thetap(i));
+        thetap = mod(thetap+pi, 2*pi)-pi;
     end
 end
-

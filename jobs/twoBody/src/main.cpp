@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     Array1D y0(6*NBody::Npart);
     RVtoU(y0,NBody::r0, NBody::v0);
 
-    Integrator I(F, y0, t0, tmax, nSteps, (string)"RK");
+    Integrator I(F, y0, t0, tmax, nSteps, (string)"RK5");
     
     I.sol.SaveToMFile(outFilePath);
     }
