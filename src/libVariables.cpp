@@ -10,9 +10,9 @@ using namespace std;
 
 namespace variables{
 int nSteps;
-int t0;
+int t0=-1;
 int tmax;
-std::string& method;
+std::string method = "";
 
 void parseCfgFile(string& cfgFilePath);
 bool parseCommand(ifstream& cfgFile);
@@ -51,7 +51,7 @@ bool parseCommand(ifstream& cfgFile){
     }else if (command == "tmax"){
         tmax = stoi(value);
     }else if (command == "method"){
-        method = value;    
+        method = readString(value);    
     } else {
         cout << "Error: command '" << line << "' not recognized!\n";
         exit(1);
@@ -63,13 +63,13 @@ void checkMissing(){
     if (nSteps==0){
         cout << "Error: variable nSteps not set\n";
         exit(2);
-    //} else if (t0==0){
-      //  cout << "Error: variable t0 not set\n";
-       // exit(2);
+    } else if (t0==-1){
+        cout << "Error: variable t0 not set\n";
+        exit(2);
     } else if (tmax==0){
         cout << "Error: variable tmax not set\n";
         exit(2);
-    } else if (&method == 0){
+    } else if (method == ""){
         cout << "Error: variable method not set\n";
         exit(2);
     }

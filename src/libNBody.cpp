@@ -25,6 +25,7 @@ void init(string& cfgFilePath){
 }
 
 void parseCfgFile(string& cfgFilePath){
+    cout << "1\n";
     ifstream cfgFile(cfgFilePath);
     if (cfgFile.is_open()){
         bool isEOF=false;

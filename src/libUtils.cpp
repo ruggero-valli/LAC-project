@@ -55,6 +55,11 @@ Array2D readArray2D(ifstream& cfgFile, int rows, int cols){
     return arr;
 }
 
+string readString(string str){
+    erase(str, '"');
+    return str;
+}
+
 void erase(string& str, char c){
     str.erase(std::remove(str.begin(), str.end(), c), str.end());
 }
