@@ -112,7 +112,7 @@ function [tp, rp, thetap] = periastron(t,r,theta)
     
     delta = 1;
     i = 0;
-    figure();
+    %figure();
     % for every local minima, find the exact point
     for idx = transpose(min_idx)
         i = i+1;
@@ -126,8 +126,8 @@ function [tp, rp, thetap] = periastron(t,r,theta)
 
         % checking if the periastron is near 2pi and the theta_span
         % overlaps with the jump from 2pi to 0.
-        if (max(theta_span) - min(theta_span) > 2)
-            theta_span(theta_span < 0.1) = theta_span(theta_span < 0.1)+2*pi;
+        if (max(theta_span) - min(theta_span) > pi)
+            theta_span(theta_span < pi) = theta_span(theta_span < pi)+2*pi;
         end
         
         % parabolic fit of the points around the minimum

@@ -8,4 +8,4 @@ t0 = 0;
 tmax = 2;
 
 %Name of the method
-method = "Verlet";
+method = "RK5";
