@@ -21,7 +21,7 @@ echo "Compilato!"
 
 
 # Execute program
-bin/main "$JOB_PATH/output/prova.m" "$PROJECT_PATH/config/units.m" "$JOB_PATH/config/IC.m"
+bin/main "$JOB_PATH/output/prova.m" "$PROJECT_PATH/config/units.m" "$JOB_PATH/config/IC.m" "$JOB_PATH/config/Variables.m"
 echo "Eseguito!"
 
 cd "$JOB_PATH/bin"
