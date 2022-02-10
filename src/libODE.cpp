@@ -34,7 +34,7 @@ void Solution::SaveToMFile(string FileName){
         myfile << "];" << '\n';
         myfile << "t=[ " << '\n';
         for (int i=0; i<nSteps; i++){
-            myfile << t[i] << '\n';
+            myfile << setprecision(16) << t[i] << '\n';
         }
         myfile << "];" << '\n';
         
