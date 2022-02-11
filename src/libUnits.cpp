@@ -21,7 +21,7 @@ void checkMissing();
 void init(string& cfgFilePath){
     parseCfgFile(cfgFilePath);
     checkMissing();
-    T = sqrt(4*M_PI*L*L*L/M/G);
+    T = sqrt(L*L*L/M/G);
     G = 1;
 }
 
