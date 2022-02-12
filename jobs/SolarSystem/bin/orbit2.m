@@ -1,9 +1,13 @@
-prova;
+%prova;
+SS;
 units;
 IC;
 
 U_r = reshape(U(:, 1:6 ), [], 3, 2);
-U_v = reshape(U(:, 7:12), [], 3, 2);
+%U_v = reshape(U(:, 7:12), [], 3, 2);
+U_v = reshape(U(:, 28:33), [], 3, 2);
+
+
 
 T = sqrt(L*L*L/M/G);
 G = 1;
