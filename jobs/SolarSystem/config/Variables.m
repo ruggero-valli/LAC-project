@@ -1,5 +1,5 @@
 %Number of steps in the simulation
-nSteps = 80000;
+nSteps = 40000;
 
 %Initial time
 t0 = 0;
