@@ -107,8 +107,7 @@ SchwGradient :: SchwGradient(Array1D r0, Array1D v0, double m){
     double v = sqrt(v0(0)*v0(0)+v0(1)*v0(1)+v0(2)*v0(2));
 
     this->L = sqrt(arg1*arg1+arg2*arg2+arg3*arg3);
-    //this->eps = v*v/2;
-    this->eps = 10*v*v;
+    this->eps = (v*v)/2 + (units::c * units::c);
     this->m = m;
 }
 
@@ -119,11 +118,11 @@ Array1D SchwGradient :: operator()(Array1D y, double t){
     double drdt, dphidt, dttdt;
     Array1D dydt;
     double M = units::G*m/(units::c*units::c);
-    double r;
-    r = y(2);
-    dphidt = L/(r*r);
-    dttdt = eps/(1-(2*M/r));
-    drdt = eps*eps - (1+(L*L/(r*r)))*(1-(2*M/r));
+    //double r;
+    //r = y(2);
+    dphidt = L/(y(2)*y(2));
+    dttdt = eps/(1-(2*M/y(2)));
+    drdt = eps*eps - ((units::c * units::c)-(L*L/(y(2)*y(2))))*(1-(2*M/y(2)));
 
     f(0) = dphidt;
     f(1) = dttdt;
