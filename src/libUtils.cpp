@@ -75,6 +75,13 @@ void join(Array1D& U, Array1D& r, Array1D& v){
     U(seq(last/2 + 1, last)) = v;
 }
 
+/*void join3(Array1D& U, Array1D& phi, Array1D& tt, Array1D& r){
+    U.resize(phi.size()+tt.size()+r.size());
+    U(seq(0,last/3)) = phi;
+    U(seq(last/3+1, 2*last/3)) = tt;
+    U(seq(2*last/3+1, last)) = r;
+}*/
+
 void UtoRV(Array1D& U, Array2D& r, Array2D& v){
     int N = U.size()/6;
     Array1D rflat,vflat;

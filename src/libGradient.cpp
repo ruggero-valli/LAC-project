@@ -3,9 +3,11 @@
 #include <math.h>
 #include "Eigen/Dense"
 #include "libUtils.h"
+#include "libUnits.h"
 
 using namespace std;
 using namespace Eigen;
+
 
 testGradient :: testGradient(double lambda){
     this->lambda = lambda;
@@ -96,6 +98,37 @@ Array1D NbodiesGradient :: operator()(Array1D y, double t){
     join(dydt, drdt, dvdt);
 
     return dydt;
+}
+
+SchwGradient :: SchwGradient(Array1D r0, Array1D v0, double m){
+    double arg1 = r0(1)*v0(2) - r0(2)*v0(1);
+    double arg2 = r0(2)*v0(0) - r0(0)*v0(2);
+    double arg3 = r0(0)*v0(1) - r0(1)*v0(0);
+    double v = sqrt(v0(0)*v0(0)+v0(1)*v0(1)+v0(2)*v0(2));
+
+    this->L = sqrt(arg1*arg1+arg2*arg2+arg3*arg3);
+    this->eps = (v*v)/2 + (units::c * units::c);
+    this->m = m;
+}
+
+Array1D SchwGradient :: operator()(Array1D y, double t){
+    Array1D f;
+    f.resizeLike(y);
+
+    double drdt, dphidt, dttdt;
+    Array1D dydt;
+    double M = units::G*m/(units::c*units::c);
+    //double r;
+    //r = y(2);
+    dphidt = L/(y(2)*y(2));
+    dttdt = eps/(1-(2*M/y(2)));
+    drdt = eps*eps - ((units::c * units::c)-(L*L/(y(2)*y(2))))*(1-(2*M/y(2)));
+
+    f(0) = dphidt;
+    f(1) = dttdt;
+    f(2) = drdt;
+    cout << L << ' ' << M <<  ' ' << eps << '\n';
+    return f;
 }
 
 

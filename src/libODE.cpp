@@ -52,7 +52,6 @@ Integrator::Integrator(Gradient& f, Array1D& y0, double t0, double tmax, int nSt
     sol.setIC(y0, t0);
     Array1D U = y0;
     double t = t0;
-
     integrationStep integStep;
     if (method == "EE"){
         integStep = EE;
@@ -131,7 +130,6 @@ void RK5(Gradient& f, Array1D& U, double t, double dt){
     k4 = f(U+69./128*k1-243./128*k2+135./64*k3, t+3./4*dt)*dt;
     k5 = f(U-17./12*k1+27./4*k2-27./5*k3+16./15*k4, t+dt) * dt;
     k6 = f(U+65./432*k1-5./16*k2+13./16*k3+4./27*k4+5./144*k5, t+5./6*dt) *dt;
-
     U+= 47./450*k1+12./25*k3+32./225*k4+1./30*k5+6./25*k6;
 }
 
