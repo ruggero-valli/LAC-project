@@ -26,7 +26,7 @@ while getopts ':cxs' OPTION; do
                 "$PROJECT_PATH/src/"*.cpp\
                 src/main.cpp\
                 -o bin/main\
-            -lm\
+            -lm -O3\
         && echo "Compilato!"
         ;;
     x)

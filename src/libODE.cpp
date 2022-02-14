@@ -27,14 +27,14 @@ void Solution::SaveToMFile(string FileName){
         myfile << "U=[ " << '\n';
         for(int i=0; i<nSteps; i++){
             for(int j=0; j<nEquations; j++){
-                myfile << setprecision(16) << U(i,j) << " " ;
+                myfile << setprecision(15) << U(i,j) << " " ;
             }
             myfile << '\n';
         }
         myfile << "];" << '\n';
         myfile << "t=[ " << '\n';
         for (int i=0; i<nSteps; i++){
-            myfile << setprecision(16) << t[i] << '\n';
+            myfile << setprecision(15) << t[i] << '\n';
         }
         myfile << "];" << '\n';
         
