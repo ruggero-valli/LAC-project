@@ -1,30 +1,27 @@
-#include "libUnits.h"
-#include <math.h>
+#include <string>
 #include <iostream>
 #include <fstream>
-#include <string>
 #include "libUtils.h"
+#include "libUnits.h"
+#include "libSchw.h"
 
 using namespace std;
 
-namespace units{
-
-double M = 0;
-double L = 0;
-double G = 0;
-double T = 0;
-double c = 0;
+namespace Schw{
+    
+    int Npart;
+    double m;
+    Array1D r0;
+    Array1D v0;
 
 void parseCfgFile(string& cfgFilePath);
 bool parseCommand(ifstream& cfgFile);
 void checkMissing();
 
 void init(string& cfgFilePath){
+    Npart = 0;
     parseCfgFile(cfgFilePath);
     checkMissing();
-    T = sqrt(L*L*L/M/G);
-    G = 1;
-    c = 2.99792458e08/(L/T);
 }
 
 void parseCfgFile(string& cfgFilePath){
@@ -48,13 +45,17 @@ bool parseCommand(ifstream& cfgFile){
         return false; // lines starting with '%' are comments
     }
     parseLine(line, command, value);
-    
-    if (command == "M"){
-        M = stof(value);
-    } else if (command == "L"){
-        L = stof(value);
-    } else if (command == "G"){
-        G = stof(value);
+    if (command == "Npart"){
+        Npart = stoi(value);
+    }else if (command == "m"){
+        m = stof(value);
+        m = m/units::M;
+    }else if (command == "r0"){
+        r0 = readArray1D(value, 3);
+        r0 = r0/units::L;
+    }else if (command == "v0"){
+        v0 = readArray1D(value, 3);
+        v0 = v0/(units::L/units::T);
     } else {
         cout << "Error: command '" << line << "' not recognized!\n";
         exit(1);
@@ -63,16 +64,18 @@ bool parseCommand(ifstream& cfgFile){
 }
 
 void checkMissing(){
-    if (M==0){
-        cout << "Error: variable M not set\n";
+    if (Npart==0){
+        cout << "Error: variable N not set\n";
         exit(2);
-    } else if (L==0){
-        cout << "Error: variable L not set\n";
+    } else if (m==0){
+        cout << "Error: variable m not set\n";
         exit(2);
-    } else if (G==0){
-        cout << "Error: variable G not set\n";
+    } else if (r0.size()==0){
+        cout << "Error: variable r0 not set\n";
+        exit(2);
+    } else if (v0.size()==0){
+        cout << "Error: variable v0 not set\n";
         exit(2);
     }
 }
-
 }

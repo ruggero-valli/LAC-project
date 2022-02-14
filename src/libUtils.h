@@ -44,6 +44,8 @@ void split(Array1D& U, Array1D& r, Array1D& v);
  */
 void join(Array1D& U, Array1D& r, Array1D& v);
 
+//void join3(Array1D& U, Array1D& phi, Array1D& tt, Array1D& r);
+
 /**
  * @brief Converts the solution array `U` into a position array `r` and a
  * velocity array `v`.

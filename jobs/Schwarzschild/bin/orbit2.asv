@@ -1,13 +1,9 @@
-%prova;
-SS;
+prova;
 units;
 IC;
 
 U_r = reshape(U(:, 1:6 ), [], 3, 2);
-%U_v = reshape(U(:, 7:12), [], 3, 2);
-U_v = reshape(U(:, 28:33), [], 3, 2);
-
-
+U_v = reshape(U(:, 7:12), [], 3, 2);
 
 T = sqrt(L*L*L/M/G);
 G = 1;
@@ -109,7 +105,7 @@ end
 
 function [tp, rp, thetap] = periastron(t,r,theta)
     % look for local minima
-    [~,min_idx] = findpeaks(-r(:,1)); %%array di indici in cui la distanza tra sole e mercurio è minima
+    [~,min_idx] = findpeaks(-r(:,1));
     tp = zeros(length(min_idx),1);
     thetap = zeros(length(min_idx),1);
     rp = zeros(length(min_idx),1);
@@ -140,27 +136,24 @@ function [tp, rp, thetap] = periastron(t,r,theta)
         a = coef(1);
         b = coef(2);
         c = coef(3);
+        % Calcolo analitico dei coefficienti. Non è altrettato preciso del
+        % fit
+%       %k1 = (theta_span(1)-theta_span(2))*(theta_span(1)-theta_span(3));
+%       %k2 = (theta_span(2)-theta_span(1))*(theta_span(2)-theta_span(3));
+%       %k3 = (theta_span(3)-theta_span(1))*(theta_span(3)-theta_span(2));
+%        a = r_span(1)/k1 + r_span(2)/k2 + r_span(3)/k3;
+%         b = -r_span(1)*(theta_span(2)+theta_span(3))/k1 - r_span(2)*(theta_span(1)+theta_span(3))/k2 - r_span(3)*(theta_span(1)+theta_span(2))/k3;
+%         c = r_span(1)*theta_span(2)*theta_span(3)/k1 + r_span(2)*theta_span(1)*theta_span(3)/k2 + r_span(3)*theta_span(1)*theta_span(2)/k3;
         % a,b,c are the three coefficients of a parabola
-
-        % Calcolo analitico dei coefficienti. Non è preciso come il fit
-        %k1 = (theta_span(1)-theta_span(2))*(theta_span(1)-theta_span(3));
-        %k2 = (theta_span(2)-theta_span(1))*(theta_span(2)-theta_span(3));
-        %k3 = (theta_span(3)-theta_span(1))*(theta_span(3)-theta_span(2));
-        %a = r_span(1)/k1 + r_span(2)/k2 + r_span(3)/k3;
-        %b = -r_span(1)*(theta_span(2)+theta_span(3))/k1 - r_span(2)*(theta_span(1)+theta_span(3))/k2 - r_span(3)*(theta_span(1)+theta_span(2))/k3;
-        %c = r_span(1)*theta_span(2)*theta_span(3)/k1 + r_span(2)*theta_span(1)*theta_span(3)/k2 + r_span(3)*theta_span(1)*theta_span(2)/k3;
-
-        thetap(i) = -b/(2*a); % x coordinate of the vertex
-        rp(i) = c-b^2/(4*a); %y coordinate of the vertex
+        thetap(i) = -b/(2*a);
+        rp(i) = c-b^2/(4*a);
+        plot(theta_span+i,r_span,'b.');
+        hold on;
+        plot(thetap(i)+i, rp(i),'r.');
+        ttheta = linspace(theta_span(1), theta_span(3));
+        plot(ttheta+i, a.*ttheta.*ttheta+b.*ttheta+c,'g');
         
-        % Plot showing the fitted curves
-        %plot(theta_span+i,r_span,'b.');
-        %hold on;
-        %plot(thetap(i)+i, rp(i),'r.');
-        %ttheta = linspace(theta_span(1), theta_span(3));
-        %plot(ttheta+i, a.*ttheta.*ttheta+b.*ttheta+c,'g');
-        
-        % find the time of periastron through a linear interpolation
+        % find the theta of periastron through a linear interpolation
         tp(i) = interp1(theta_span, t_span, thetap(i));
         thetap = mod(thetap+pi, 2*pi)-pi;
     end
