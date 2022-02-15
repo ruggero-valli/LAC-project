@@ -28,10 +28,11 @@ int main(int argc, char *argv[]){
     Schw::init(cfgSchwFilePath);
     variables::init(cfgVariablesFilePath);
 
-    Array1D y0(3);
+    Array1D y0(4);
     y0(0) = 0;
     y0(1) = 0;
     y0(2) = sqrt(Schw::r0(0)*Schw::r0(0) + Schw::r0(1)*Schw::r0(1) + Schw::r0(2)*Schw::r0(2));
+    y0(3) = (Schw::r0(0)*Schw::v0(0) + Schw::r0(1)*Schw::v0(1) + Schw::r0(2)*Schw::v0(2))/y0(2);
    
     SchwGradient F(Schw::r0, Schw::v0, Schw::m);
     Integrator I(F, y0, variables::t0, variables::tmax, variables::nSteps, variables::method);

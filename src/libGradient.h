@@ -58,11 +58,11 @@ class NbodiesGradient : public Gradient{
 
 class SchwGradient : public Gradient{
     public:
-    double m;
+    double M;
     double L;
     double eps;
 
-    SchwGradient(Array1D r0, Array1D v0, double m);
+    SchwGradient(Array1D r0, Array1D v0, Array1D m);
     Array1D operator()(Array1D y, double t);
 };
 

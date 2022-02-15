@@ -7,7 +7,7 @@
 namespace Schw{
 
     extern int Npart;
-    extern double m;
+    extern Array1D m;
     extern Array1D r0;
     extern Array1D v0;
 
