@@ -100,34 +100,38 @@ Array1D NbodiesGradient :: operator()(Array1D y, double t){
     return dydt;
 }
 
-SchwGradient :: SchwGradient(Array1D r0, Array1D v0, double m){
+SchwGradient :: SchwGradient(Array1D r0, Array1D v0, Array1D m){
     double arg1 = r0(1)*v0(2) - r0(2)*v0(1);
     double arg2 = r0(2)*v0(0) - r0(0)*v0(2);
     double arg3 = r0(0)*v0(1) - r0(1)*v0(0);
     double v = sqrt(v0(0)*v0(0)+v0(1)*v0(1)+v0(2)*v0(2));
 
-    this->L = sqrt(arg1*arg1+arg2*arg2+arg3*arg3);
-    this->eps = (v*v)/2 + (units::c * units::c);
-    this->m = m;
+    this->L = sqrt(arg1*arg1+arg2*arg2+arg3*arg3) * (m(0)+m(1))/m(0);
+    this->eps = ((v*v)/2 + (units::c * units::c))/units::c;
+    this->M = units::G*(m(0)+m(1))/(units::c*units::c);
 }
 
 Array1D SchwGradient :: operator()(Array1D y, double t){
     Array1D f;
     f.resizeLike(y);
 
-    double drdt, dphidt, dttdt;
-    Array1D dydt;
-    double M = units::G*m/(units::c*units::c);
-    //double r;
-    //r = y(2);
-    dphidt = L/(y(2)*y(2));
-    dttdt = eps/(1-(2*M/y(2)));
-    drdt = eps*eps - ((units::c * units::c)-(L*L/(y(2)*y(2))))*(1-(2*M/y(2)));
+    double drdt, dphidt, dttdt, dvdt;
+    double r = y(2);
+    double v = y(3);
+    dphidt = L/(r*r);
+    dttdt = eps/(1-(2*M/r));
+    //drdt = -sqrt(eps*eps - (units::c*units::c + L*L/(r*r)) * (1-(2*M/r)));
+    drdt = v;
+    dvdt = L*L/(r*r*r) - M*units::c*units::c/(r*r) - 3*L*L*M/(r*r*r*r);
+
+
+   //cout << drdt << ' ' << dvdt << ' ' << dphidt << '\n';
 
     f(0) = dphidt;
     f(1) = dttdt;
     f(2) = drdt;
-    cout << L << ' ' << M <<  ' ' << eps << '\n';
+    f(3) = dvdt;
+
     return f;
 }
 

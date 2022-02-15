@@ -10,7 +10,7 @@ using namespace std;
 namespace Schw{
     
     int Npart;
-    double m;
+    Array1D m;
     Array1D r0;
     Array1D v0;
 
@@ -48,7 +48,7 @@ bool parseCommand(ifstream& cfgFile){
     if (command == "Npart"){
         Npart = stoi(value);
     }else if (command == "m"){
-        m = stof(value);
+        m = readArray1D(value, 2);
         m = m/units::M;
     }else if (command == "r0"){
         r0 = readArray1D(value, 3);
@@ -67,7 +67,7 @@ void checkMissing(){
     if (Npart==0){
         cout << "Error: variable N not set\n";
         exit(2);
-    } else if (m==0){
+    } else if (m.size()==0){
         cout << "Error: variable m not set\n";
         exit(2);
     } else if (r0.size()==0){

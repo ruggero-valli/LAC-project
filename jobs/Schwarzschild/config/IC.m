@@ -3,7 +3,7 @@ Npart = 1;
 % Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
 
 % Mass of the Sun in kg
-m =1.9885e30; 
+m =[1.9885e30, 3.302e23]; 
 
 
 % Initial position of Mercury
