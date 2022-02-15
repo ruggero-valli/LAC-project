@@ -14,7 +14,7 @@ r0 = [
 % Initial velocity of the bodies in meters/second
 v0 = [
     0,  0
-    0,  47.36e3
+    0,  50e3
     0,  0
 ];
 

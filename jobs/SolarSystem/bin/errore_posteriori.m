@@ -12,31 +12,31 @@ tH = t;
 
 % Import data - lower order
 
-SS_RK4_80k;
+SS_Yo_80k;
 
 U_r = reshape(U(:, 1:end/2 ), [], 3, Npart);
 U_v = reshape(U(:, end/2+1:end), [], 3, Npart);
 tL = t;
 [r_vecL,~,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m(1), m(2));
 
-err = sqrt(sum((r_vecH-r_vecL).^2,2))./sqrt(sum(r_vecH.^2,2));
+%err = sqrt(sum((r_vecH-r_vecL).^2,2))./sqrt(sum(r_vecH.^2,2));
 %%
 [tpH,rp_vecH, thetapH] = periastron(tH,r_vecH);
 [tpL,rp_vecL, thetapL] = periastron(tL,r_vecL);
 
 errrp = sqrt(sum((rp_vecH-rp_vecL).^2,2))./sqrt(sum(rp_vecH.^2,2));
 errtp = abs(tpL-tpH)./abs(tpH);
-errthetap = abs(thetapL-thetapH);
+errthetap = abs(thetapL-thetapH)./abs(thetapH);
 
 
 %%
 figure();
-loglog(tH,err,'.', Color="r");
+loglog(tpH, errrp','.');
 hold on
-loglog(tpH, errrp./i','.');
-loglog(tpH, errtp./i','.');
-loglog(tpH, errthetap./i','.');
-legend(["rp", "tp", "thetap"]);
+loglog(tpH, errtp','.');
+loglog(tpH, errthetap','.');
+%loglog(tH,err,'.', Color="r");
+legend(["rp", "tp", "thetap", "solution"]);
 
 %%
 figure()

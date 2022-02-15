@@ -5,8 +5,8 @@ nSteps = 160000;
 t0 = 0;
 
 %Maximum time of integration
-tmax = 5200;
+tmax = 1300;
 %tmax = 130;
 
 %Name of the method
-method = "RK5";
+method = "Yoshida";

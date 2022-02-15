@@ -181,4 +181,7 @@ void RK5(Gradient& f, Array1D& U, double t, double dt);
  */
 void Verlet(Gradient& f, Array1D& U, double t, double dt);
 
+void Yoshida(Gradient& f, Array1D& U, double t, double dt);
+
+
 #endif

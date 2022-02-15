@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
 void checkOrder(string& method, vector<double>& dt, vector<double>& err){
     if (method == "EE" || method == "RK4" || method == "RK5"){
         checkOrderStandard(method, dt, err);
-    } else if (method == "SE" || method == "Verlet"){
+    } else if (method == "SE" || method == "Verlet" || method == "Yoshida"){
         checkOrderSymplectic(method, dt, err);
     } else{
         cout << "Integration method " << method << " not recognized. Quitting";

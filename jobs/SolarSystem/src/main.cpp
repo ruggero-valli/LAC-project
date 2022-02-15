@@ -36,7 +36,7 @@ int main(int argc, char *argv[]){
         Integrator I(F, y0, variables::t0, variables::tmax, variables::nSteps, variables::method);
         I.sol.SaveToMFile(outFilePath);
     }
-    if (variables::method == "SE" || variables::method == "Verlet" || variables::method == "S4"){
+    if (variables::method == "SE" || variables::method == "Verlet" || variables::method == "Yoshida"){
         NbodiesGradientSymp F(NBody::m);
         Integrator I(F, y0, variables::t0, variables::tmax, variables::nSteps, variables::method);
         I.sol.SaveToMFile(outFilePath);

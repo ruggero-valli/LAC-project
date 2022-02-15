@@ -1,9 +1,6 @@
-prova;
+%% Units and initial conditions
 units;
 IC;
-
-U_r = reshape(U(:, 1:6 ), [], 3, 2);
-U_v = reshape(U(:, 7:12), [], 3, 2);
 
 T = sqrt(L*L*L/M/G);
 G = 1;
@@ -12,48 +9,71 @@ r0_vec = r0/L;
 v0_vec = v0*T/L;
 m = m/M;
 
-[r_vec,v_vec,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
 [r0_vec, v0_vec, ~, ~] = coord_change(r0_vec(:,1), r0_vec(:,2), v0_vec(:,1), v0_vec(:, 2), m);
-theta = angolo(r_vec);
-R = orbit(theta, r0_vec, v0_vec, m(1)+m(2));
-r = sqrt(sum(r_vec.^2,2));
+
+%% Import data
+twoBody_RK5;
+
+U_r = reshape(U(:, 1:6 ), [], 3, 2);
+U_v = reshape(U(:, 7:12), [], 3, 2);
+[r_vec,~,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
+theta1 = angolo(r_vec);
+r1 = sqrt(sum(r_vec.^2,2));
+
+twoBody_RK4;
+
+U_r = reshape(U(:, 1:6 ), [], 3, 2);
+U_v = reshape(U(:, 7:12), [], 3, 2);
+[r_vec,~,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
+theta2 = angolo(r_vec);
+r2 = sqrt(sum(r_vec.^2,2));
+
+twoBody_Yo;
+
+U_r = reshape(U(:, 1:6 ), [], 3, 2);
+U_v = reshape(U(:, 7:12), [], 3, 2);
+[r_vec,~,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
+theta3 = angolo(r_vec);
+r3 = sqrt(sum(r_vec.^2,2));
+
+twoBody_Ve;
+
+U_r = reshape(U(:, 1:6 ), [], 3, 2);
+U_v = reshape(U(:, 7:12), [], 3, 2);
+[r_vec,~,~,~] = coord_change(U_r(:, :, 1), U_r(:,:,2), U_v(:,:,1), U_v(:,:,2), m);
+theta4 = angolo(r_vec);
+r4 = sqrt(sum(r_vec.^2,2));
+
+R = orbit(theta1, r0_vec, v0_vec, m(1)+m(2));
 
 %%
 figure();
-plot(R.*cos(theta), R.*sin(theta), '.');
+semilogy(t*T/(pi*1e7), movmean(abs(r1-R)./R, 200));
 hold on
-plot(r.*cos(theta), r.*sin(theta), '.');
-xlabel('R*cos(theta)');
-ylabel('R*sin(theta)');
-title('2 bodies orbit');
-
+semilogy(t*T/(pi*1e7), movmean(abs(r2-R)./R,200));
+semilogy(t*T/(pi*1e7), movmean(abs(r3-R)./R,200));
+semilogy(t*T/(pi*1e7), movmean(abs(r4-R)./R,200));
+legend(["RK5", "RK4", "Yoshida", "Verlet"])
+xlabel("time (years)")
+ylabel("relative error on the solution")
+grid on
+%%
+[tp1,rp1,thetap1] = periastron(t,r1,theta1);
+[tp2,rp2,thetap2] = periastron(t,r2,theta2);
+[tp3,rp3,thetap3] = periastron(t,r3,theta3);
+[tp4,rp4,thetap4] = periastron(t,r4,theta4);
+%%
 figure();
-err = (R-r)./R;
-plot(err,'.');
-max(abs(err))
-
-%%
-%t = transpose(linspace(0,400,1000));
-%theta = mod(t+pi, 2*pi)-pi;
-%R = orbit(theta, r0_vec, v0_vec, m(1)+m(2));
-[tp,rp,thetap] = periastron(t,r,theta);
-%%
-figure()
-plot(rp.*cos(thetap),rp.*sin(thetap),'.');
+semilogy(tp1*T/(pi*1e7), abs(thetap1)*360*3600/(2*pi));
 hold on
-plot(r.*cos(theta),r.*sin(theta),'.');
+semilogy(tp2*T/(pi*1e7), abs(thetap2)*360*3600/(2*pi));
+semilogy(tp3*T/(pi*1e7), abs(thetap3)*360*3600/(2*pi));
+semilogy(tp4*T/(pi*1e7), abs(thetap4)*360*3600/(2*pi));
+legend(["RK5", "RK4", "Yoshida", "Verlet"])
+xlabel("time (years)")
+ylabel("error on the angle of periastron ('')")
+grid on
 
-%%
-figure()
-plot(tp, thetap-pi,'.');
-hold on
-plot(tp, thetap+pi, '.');
-
-%%
-figure()
-plot(thetap, rp,'.');
-hold on
-plot(theta, r,'.');
 
 
 %%
@@ -110,7 +130,7 @@ function [tp, rp, thetap] = periastron(t,r,theta)
     thetap = zeros(length(min_idx),1);
     rp = zeros(length(min_idx),1);
     
-    delta = 1;
+    delta = 3;
     i = 0;
     %figure();
     % for every local minima, find the exact point
@@ -127,27 +147,10 @@ function [tp, rp, thetap] = periastron(t,r,theta)
         % checking if the periastron is near 2pi and the theta_span
         % overlaps with the jump from 2pi to 0.
         if (max(theta_span) - min(theta_span) > pi)
-            theta_span(theta_span < pi) = theta_span(theta_span < pi)+2*pi;
+            theta_span(theta_span < 0) = theta_span(theta_span < 0)+2*pi;
         end
-        
-        % parabolic fit of the points around the minimum
-        f=fit(theta_span,r_span,'poly2');
-        coef = coeffvalues(f);
-        a = coef(1);
-        b = coef(2);
-        c = coef(3);
-        % a,b,c are the three coefficients of a parabola
-
-        % Calcolo analitico dei coefficienti. Non è preciso come il fit
-        %k1 = (theta_span(1)-theta_span(2))*(theta_span(1)-theta_span(3));
-        %k2 = (theta_span(2)-theta_span(1))*(theta_span(2)-theta_span(3));
-        %k3 = (theta_span(3)-theta_span(1))*(theta_span(3)-theta_span(2));
-        %a = r_span(1)/k1 + r_span(2)/k2 + r_span(3)/k3;
-        %b = -r_span(1)*(theta_span(2)+theta_span(3))/k1 - r_span(2)*(theta_span(1)+theta_span(3))/k2 - r_span(3)*(theta_span(1)+theta_span(2))/k3;
-        %c = r_span(1)*theta_span(2)*theta_span(3)/k1 + r_span(2)*theta_span(1)*theta_span(3)/k2 + r_span(3)*theta_span(1)*theta_span(2)/k3;
-
-        thetap(i) = -b/(2*a);
-        rp(i) = c-b^2/(4*a);
+           
+        [thetap(i), rp(i)] = findMin(theta_span, r_span);
         
         % Plot showing the fitted curves
         %plot(theta_span+i,r_span,'b.');
@@ -157,7 +160,13 @@ function [tp, rp, thetap] = periastron(t,r,theta)
         %plot(ttheta+i, a.*ttheta.*ttheta+b.*ttheta+c,'g');
         
         % find the time of periastron through a linear interpolation
-        tp(i) = interp1(theta_span, t_span, thetap(i));
+        tp(i) = interp1(theta_span, t_span, thetap(i), 'spline');
         thetap = mod(thetap+pi, 2*pi)-pi;
     end
+end
+
+
+function [xm, ym] = findMin(x,y)
+    f = griddedInterpolant(x,y,'spline'); % spline seems to be the best
+    [xm, ym] = fminbnd(@(x) f(x), x(1), x(end));
 end

@@ -1,5 +1,5 @@
 % Import data
-SS_RK4_40k;
+SS_Yo_160k;
 units;
 IC;
 
@@ -45,7 +45,10 @@ plot(diff(tp)-mean(diff(tp)));
 % subtract the slope
 osc = thetap_arcsec-p(1)*tp_years-p(2);
 plot(tp, osc,'o-',MarkerSize=3, MarkerFaceColor="b");
+xlabel("time (years)");
+ylabel("Residuals ('')")
 
+%%
 %periods of the planets
 year=365;
 pm = 87.97/year;
@@ -66,30 +69,30 @@ xline(1/pj, Color="g", LineWidth=2)
 xline(1/pM)
 xline(1/pS)
 
-xline(toNyquist(2/pv, fny), Color="#ff0000")
-xline(toNyquist(3/pv, fny), Color="#ff3333")
-xline(toNyquist(4/pv, fny), Color="#ff6666")
-xline(toNyquist(5/pv, fny), Color="#ff9999")
-xline(toNyquist(6/pv, fny), Color="#ffaaaa")
+xline(toNyquist(2/pv, fny), Color="#ff0000", LineWidth=1.5)
+xline(toNyquist(3/pv, fny), Color="#ff3333", LineWidth=1)
+xline(toNyquist(4/pv, fny), Color="#ff6666", LineWidth=0.5)
+xline(toNyquist(5/pv, fny), Color="#ff9999", LineWidth=0.5)
+xline(toNyquist(6/pv, fny), Color="#ffaaaa", LineWidth=0.5)
 
-xline(toNyquist(2/pe, fny), Color="#0000ff")
-xline(toNyquist(3/pe, fny), Color="#3333ff")
-xline(toNyquist(4/pe, fny), Color="#6666ff")
-xline(toNyquist(5/pe, fny), Color="#9999ff")
-xline(toNyquist(6/pe, fny), Color="#aaaaff")
+xline(toNyquist(2/pe, fny), Color="#0000ff", LineWidth=1.5)
+xline(toNyquist(3/pe, fny), Color="#3333ff", LineWidth=1)
+xline(toNyquist(4/pe, fny), Color="#6666ff", LineWidth=0.5)
+xline(toNyquist(5/pe, fny), Color="#9999ff", LineWidth=0.5)
+xline(toNyquist(6/pe, fny), Color="#aaaaff", LineWidth=0.5)
 
-xline(toNyquist(2/pj, fny), Color="#00ff00")
-xline(toNyquist(3/pj, fny), Color="#33ff33")
-xline(toNyquist(4/pj, fny), Color="#66ff66")
-xline(toNyquist(5/pj, fny), Color="#99ff99")
-xline(toNyquist(6/pj, fny), Color="#aaffaa")
+xline(toNyquist(2/pj, fny), Color="#00ff00", LineWidth=1.5)
+xline(toNyquist(3/pj, fny), Color="#33ff33", LineWidth=1)
+xline(toNyquist(4/pj, fny), Color="#66ff66", LineWidth=0.5)
+xline(toNyquist(5/pj, fny), Color="#99ff99", LineWidth=0.5)
+xline(toNyquist(6/pj, fny), Color="#aaffaa", LineWidth=0.5)
 
 % calculate the power spectrum
 ps = abs(fft(osc));
 f = linspace(0,1/pm*pe, length(tp));
-plot(f(1:int32(end/2)), ps(1:int32(end/2)))
+plot(f(1:int32(end/2)), ps(1:int32(end/2)), Color="black", LineWidth=2)
 
-legend("Venus", "Earth", "Jupiter")
+legend(["Venus", "Earth", "Jupiter"])
 xlabel("frequency (year^{-1})")
 ylabel("power spectrum")
 

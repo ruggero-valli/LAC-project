@@ -32,7 +32,7 @@ while getopts ':cxs' OPTION; do
     x)
         # Execute program
         cd "$JOB_PATH"
-        bin/main "$JOB_PATH/output/prova.m" "$PROJECT_PATH/config/units.m" "$JOB_PATH/config/IC.m" "$JOB_PATH/config/Variables.m"\
+        bin/main "$JOB_PATH/output/twoBody.m" "$PROJECT_PATH/config/units.m" "$JOB_PATH/config/IC.m" "$JOB_PATH/config/Variables.m"\
         && echo "Eseguito!"
         ;;
     s)

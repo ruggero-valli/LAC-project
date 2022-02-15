@@ -27,14 +27,14 @@ void Solution::SaveToMFile(string FileName){
         myfile << "U=[ " << '\n';
         for(int i=0; i<nSteps; i++){
             for(int j=0; j<nEquations; j++){
-                myfile << setprecision(15) << U(i,j) << " " ;
+                myfile << setprecision(10) << U(i,j) << " " ;
             }
             myfile << '\n';
         }
         myfile << "];" << '\n';
         myfile << "t=[ " << '\n';
         for (int i=0; i<nSteps; i++){
-            myfile << setprecision(15) << t[i] << '\n';
+            myfile << setprecision(10) << t[i] << '\n';
         }
         myfile << "];" << '\n';
         
@@ -62,7 +62,9 @@ Integrator::Integrator(Gradient& f, Array1D& y0, double t0, double tmax, int nSt
     } else if(method == "Verlet"){  
         integStep = Verlet;  
     } else if(method == "RK5"){
-        integStep = RK5;    
+        integStep = RK5;  
+    } else if(method == "Yoshida"){
+        integStep = Yoshida;   
     } else{    
         cout << "Integration method " << method << " not recognized. Quitting";
         exit(1);
@@ -132,4 +134,30 @@ void RK5(Gradient& f, Array1D& U, double t, double dt){
     k6 = f(U+65./432*k1-5./16*k2+13./16*k3+4./27*k4+5./144*k5, t+5./6*dt) *dt;
     U+= 47./450*k1+12./25*k3+32./225*k4+1./30*k5+6./25*k6;
 }
+
+void Yoshida(Gradient& f, Array1D& U, double t, double dt){
+    static double k = pow(2,1./3);
+    static double w0 = - k/(2-k);
+    static double w1 = 1/(2-k);
+    static double c1 = w1/2;
+    static double c2 = (w0+w1)/2;
+    static double c3 = c2;
+    static double c4 = c1;
+    static double d1 = w1;
+    static double d2 = w0;
+    static double d3 = d1;
+
+    Array1D r, v, r1, v1, r2, v2, r3, v3;
+    split(U,r,v);
+    r1 = r + c1*v*dt;
+    v1 = v + d1*f(r1,t)*dt;
+    r2 = r1 + c2*v1*dt;
+    v2 = v1 + d2*f(r2,t)*dt;
+    r3 = r2 + c3*v2*dt;
+    v3 = v2 + d3*f(r3,t)*dt;
+    r = r3 + c4*v3*dt;
+    v = v3;
+    join(U, r, v);
+}
+
 

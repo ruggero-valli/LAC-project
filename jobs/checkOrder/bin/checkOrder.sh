@@ -32,7 +32,7 @@ while getopts ':cxs' OPTION; do
     x)
         # Execute program
         cd "$JOB_PATH"
-        bin/main "$JOB_PATH/output/" "EE" "RK4" "RK5" "SE" "Verlet"\
+        bin/main "$JOB_PATH/output/" "EE" "RK4" "RK5" "SE" "Verlet" "Yoshida"\
         && echo "Eseguito!"
         ;;
     s)
